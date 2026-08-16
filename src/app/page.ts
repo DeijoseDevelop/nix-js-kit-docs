@@ -184,7 +184,7 @@ export default function HomePage({ data }: PageProps<unknown>) {
             </div>
 
             <div style="text-align:center;margin-top:var(--sp-8)">
-                <a class="btn btn-primary" href="/docs/introduction"> Read the docs → </a>
+                <a class="btn btn-primary" href="/docs/getting-started/introduction"> Read the docs → </a>
             </div>
         </section>
 
