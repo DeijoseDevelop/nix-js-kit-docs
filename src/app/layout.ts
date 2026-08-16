@@ -62,7 +62,7 @@ export default function DocsLayout({
                     ${islandMarker("MobileDrawer", {}, "load")}
                     <a href="/" class="topbar-brand">
                     <img src="/nix-js-logo.png" alt="Nix.js Kit" width="28" height="28" style="width:28px;height:28px;object-fit:contain" />
-                    <span>Nix<em>.</em>js Kit</span></a><span class="topbar-version">v1.4.5</span>
+                    <span>Nix<em>.</em>js Kit</span></a><span class="topbar-version">v1.4.6</span>
                 </div>
 
                 <div class="topbar-breadcrumb">
