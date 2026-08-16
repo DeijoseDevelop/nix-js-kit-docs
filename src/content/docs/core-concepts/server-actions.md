@@ -129,7 +129,7 @@ nixJsKit({
 })
 ```
 
-See [Security](/docs/security) for full details.
+See [Security](/docs/server/security) for full details.
 
 ## Error handling
 

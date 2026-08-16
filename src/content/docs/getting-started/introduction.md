@@ -86,6 +86,6 @@ my-app/
 
 ## Next steps
 
-- [Installation](/docs/installation) — set up a new project
-- [Quick start](/docs/quick-start) — build your first page
-- [Routing](/docs/routing) — learn the file conventions
+- [Installation](/docs/getting-started/installation) — set up a new project
+- [Quick start](/docs/getting-started/quick-start) — build your first page
+- [Routing](/docs/core-concepts/routing) — learn the file conventions

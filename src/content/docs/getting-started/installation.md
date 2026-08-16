@@ -131,5 +131,5 @@ If everything is set up correctly, you'll see `dist/index.html` in your output d
 
 ## Next steps
 
-- [Quick start](/docs/quick-start) — build a complete app
-- [Project structure](/docs/project-structure) — understand the file conventions
+- [Quick start](/docs/getting-started/quick-start) — build a complete app
+- [Project structure](/docs/getting-started/project-structure) — understand the file conventions

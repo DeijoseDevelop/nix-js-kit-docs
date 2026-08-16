@@ -27,6 +27,7 @@ src/app/blog/[slug]/page.ts  →  /blog/:slug
 
 ```ts
 // src/app/blog/[slug]/page.ts
+// src/app/blog/[slug]/page.ts
 import { html } from "@deijose/nix-js";
 import type { PageProps, GenerateStaticParams } from "@deijose/nix-js-kit";
 
@@ -35,11 +36,10 @@ export const generateStaticParams: GenerateStaticParams = async () => [
   { slug: "nix-js-kit" },
 ];
 
-export default function BlogPost({ params, data }: PageProps<typeof load>) {
+export default function BlogPost({ params }: PageProps) {
   return html`
     <article>
-      <h1>${data.title}</h1>
-      <p>Slug: ${params.slug}</p>
+      <h1>Post: ${params.slug}</h1>
     </article>
   `;
 }

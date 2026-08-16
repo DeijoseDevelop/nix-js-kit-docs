@@ -151,6 +151,6 @@ The SSR server renders pages on demand and serves static assets from `dist/`.
 
 ## Next steps
 
-- [Routing](/docs/routing) — learn about dynamic routes and route groups
-- [Islands](/docs/islands) — understand hydration directives
-- [Server actions](/docs/server-actions) — add interactivity with server-side logic
+- [Routing](/docs/core-concepts/routing) — learn about dynamic routes and route groups
+- [Islands](/docs/client/islands) — understand hydration directives
+- [Server actions](/docs/core-concepts/server-actions) — add interactivity with server-side logic

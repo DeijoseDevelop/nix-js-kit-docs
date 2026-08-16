@@ -9,6 +9,7 @@
       "How it works",
       "Programmatic navigation",
       "Prefetch",
+      "Link attributes",
       "View Transitions",
       "Head merge",
       "Scroll restoration",
@@ -17,6 +18,22 @@
       "`/__nix-js/render` endpoint"
     ],
     "excerpt": "The built-in client router intercepts internal link clicks, fetches page bodies, and swaps  without full page reloads. The router is bundled into the generated client entry automatically when you use "
+  },
+  {
+    "title": "SEO & Sitemaps",
+    "description": "Sitemap.xml, robots.txt, JSON-LD structured data, and per-page metadata",
+    "section": "Client",
+    "slug": "client/seo",
+    "headings": [
+      "Structured data with `jsonLd`",
+      "Sitemap",
+      "Robots",
+      "Wiring it into the build",
+      "Per-page robots control",
+      "Static-site URL conventions",
+      "Availability"
+    ],
+    "excerpt": "Nix.js Kit ships helpers for the three pillars of on-page SEO: per-page metadata, structured data (JSON-LD), and sitemap/robots files. Metadata generation itself is covered in Metadata API.  returns a"
   },
   {
     "title": "Islands",
@@ -171,6 +188,28 @@
     "excerpt": "Each  file exports a default component that receives :  automatically infers the data type from your loader — no manual typing needed.  files wrap all pages in the same directory and below: Layouts ch"
   },
   {
+    "title": "Client Runtime",
+    "description": "Nix.js reactivity — templates, signals, effects, and the building blocks behind every page and island",
+    "section": "Core Concepts",
+    "slug": "core-concepts/client-runtime",
+    "headings": [
+      "Templates with `html`",
+      "Expressions",
+      "Attributes and events",
+      "Partial interpolation in attributes",
+      "Signals — reactive state",
+      "Derived state with `computed`",
+      "Effects with `effect`",
+      "Conditional rendering with `showWhen`",
+      "Lists with `repeat`",
+      "Refs with `ref`",
+      "Portals",
+      "Transitions",
+      "Where this runs"
+    ],
+    "excerpt": "Nix.js Kit is built on Nix.js, a reactive DOM micro-framework with no virtual DOM. Every page, layout, and island you write is a Nix.js template. Understanding these fundamentals unlocks the rest of t"
+  },
+  {
     "title": "Server Actions",
     "description": "Type-safe server functions with CSRF protection and progressive enhancement",
     "section": "Core Concepts",
@@ -219,6 +258,22 @@
       "Request context for auth"
     ],
     "excerpt": "Data loaders run on the server and provide data to your pages. Create a  file next to .  automatically infers the data type from your loader. No manual interface needed. Loaders receive a context with"
+  },
+  {
+    "title": "Streaming",
+    "description": "Progressive rendering with loading.ts — paint the shell first, stream the content",
+    "section": "Core Concepts",
+    "slug": "core-concepts/streaming",
+    "headings": [
+      "The pattern",
+      "Creating a loading state",
+      "Full example",
+      "Configuration",
+      "`streamBoundary` — async content placeholder",
+      "Programmatic streaming",
+      "When to use streaming"
+    ],
+    "excerpt": "Streaming lets the server send the page shell immediately and deliver the real content right after — without waiting for slow data sources (databases, remote APIs, LLMs) to finish before the first byt"
   },
   {
     "title": "Routing",
@@ -272,6 +327,54 @@
     "excerpt": "The  helper generates responsive  tags with , , lazy loading, and CLS-preventing dimensions. Generates: Generates: When : -  (instead of ) -  is added | Option | Type | Default | Description | | --- |"
   },
   {
+    "title": "Public Assets",
+    "description": "The public/ directory — static files, favicons, fonts, and site-wide assets",
+    "section": "Assets",
+    "slug": "assets/public-assets",
+    "headings": [
+      "How it works",
+      "Favicons and manifest",
+      "Self-hosted fonts",
+      "Sharing files with source code",
+      "Common use cases",
+      "Availability"
+    ],
+    "excerpt": "Files in  are copied verbatim into the build output and served at the site root. Use it for anything served as-is: favicons, fonts, manifests, social images, downloads, and other static files.  copies"
+  },
+  {
+    "title": "Styling",
+    "description": "Global CSS, headLinks, inline styles, and the no-FOUC pattern",
+    "section": "Assets",
+    "slug": "assets/styling",
+    "headings": [
+      "Global CSS",
+      "Inlining CSS for zero render-blocking requests",
+      "Global resets and variables",
+      "Self-hosted fonts",
+      "FOUC prevention across SPA navigation",
+      "Styling islands",
+      "Server-side scoped styles",
+      "Dark mode"
+    ],
+    "excerpt": "Nix.js Kit is unopinionated about CSS. Pages and islands render plain HTML, so any approach works: a single global stylesheet, CSS variables, CSS modules, or utility-first frameworks compiled with Vit"
+  },
+  {
+    "title": "SSR API",
+    "description": "renderPage, renderPageBody, renderStreamingPage, and renderErrorPage — the programmatic rendering API",
+    "section": "Server",
+    "slug": "server/ssr-api",
+    "headings": [
+      "`renderPage` — render one route to HTML",
+      "`renderPageBody` — render only the body",
+      "`renderStreamingPage` — shell + async content",
+      "`renderErrorPage` — 404 and 500 pages",
+      "`renderToString` — render a template directly",
+      "Custom server example",
+      "Availability"
+    ],
+    "excerpt": "Beyond the CLI and the Vite plugin, the kit exposes its rendering pipeline as functions. These power , the deployment adapters, and the  endpoint — and you can call them yourself for custom servers, e"
+  },
+  {
     "title": "SSR Server",
     "description": "Programmatic SSR server with createSsrServer",
     "section": "Server",
@@ -313,6 +416,25 @@
     "excerpt": "Middleware lets you run logic before every request is routed. Use cases include authentication, redirects, header injection, A/B testing, and locale detection. Create a  file (or  at the project root)"
   },
   {
+    "title": "Environment Variables",
+    "description": "Loader, server, and build-time secrets — what runs where",
+    "section": "Server",
+    "slug": "server/environment-variables",
+    "headings": [
+      "Where code runs",
+      "Loaders (server-side)",
+      "API routes and server actions",
+      "Middleware",
+      "Configuring values per environment",
+      "Local",
+      "Vercel / Netlify / Bun / Node",
+      "Client-visible values",
+      "`.env` files",
+      "Availability"
+    ],
+    "excerpt": "Environment variables work differently depending on where the code runs. The rule of thumb: code that runs on the server reads  freely; code that ships to the browser must be inlined at build time or "
+  },
+  {
     "title": "Security",
     "description": "CSRF protection and action error handling",
     "section": "Server",
@@ -336,6 +458,21 @@
       "`ACTION_ERROR_COOKIE`"
     ],
     "excerpt": "Nix.js Kit includes built-in CSRF protection for server actions and a secure error-handling mechanism that avoids leaking sensitive data in URLs. Server actions accept POST requests to . Without origi"
+  },
+  {
+    "title": "Build API",
+    "description": "build(), scanRoutes, documentShell, and BuildConfig — the programmatic SSG pipeline",
+    "section": "Tooling",
+    "slug": "tooling/build-api",
+    "headings": [
+      "`build()` — generate the static site",
+      "`scanRoutes()` — inspect the route tree",
+      "`documentShell()` — assemble a full HTML document",
+      "Building the client bundle",
+      "Typical CI script",
+      "Availability"
+    ],
+    "excerpt": "The SSG pipeline behind  is exposed as plain functions. Use them to embed the build in your own tooling, build scripts, or CI pipelines. : | Option | Type | Default | Description | | --- | --- | --- |"
   },
   {
     "title": "Vite Plugin",
@@ -372,6 +509,70 @@
       "Bun runtime"
     ],
     "excerpt": "The  binary is available after installing the package. Builds the static site and client bundle. Options: | Flag | Default | Description | | --- | --- | --- | |  |  | Project root | |  |  | Pages dire"
+  },
+  {
+    "title": "Protected Routes with Auth",
+    "description": "HttpOnly session cookie, login API, and middleware guarding private pages",
+    "section": "Recipes",
+    "slug": "recipes/auth",
+    "headings": [
+      "1. Session helper",
+      "2. Login page",
+      "3. The login API route",
+      "4. Middleware guard",
+      "5. Reading the session in a dashboard page",
+      "6. Reading the session in an API route",
+      "Security notes",
+      "Flow summary"
+    ],
+    "excerpt": "This recipe protects a dashboard with a session cookie: - A login API route verifies credentials and sets an HttpOnly session cookie - Middleware guards  and redirects anonymous visitors to  - Pages a"
+  },
+  {
+    "title": "Internationalization",
+    "description": "Locale routes with [locale], per-locale dictionaries, and an optional redirect middleware",
+    "section": "Recipes",
+    "slug": "recipes/i18n",
+    "headings": [
+      "1. Locale configuration",
+      "2. Locale routes",
+      "3. Locale-aware loader",
+      "4. Shared layout with locale switcher",
+      "5. Redirect middleware (optional)",
+      "6. Translation typing",
+      "7. Sitemap",
+      "Notes"
+    ],
+    "excerpt": "This recipe adds locale switching with no extra dependencies. Each locale lives at its own URL (, ), so every page is plain static HTML that CDNs can cache independently — the most SEO-friendly patter"
+  },
+  {
+    "title": "Forms with Server Actions",
+    "description": "A validated contact form — server action, fail() errors, progressive enhancement, and a reactive island",
+    "section": "Recipes",
+    "slug": "recipes/forms",
+    "headings": [
+      "1. The action",
+      "2. The progressive form (no JS)",
+      "3. The reactive version (with JS)",
+      "4. The success page",
+      "Key points"
+    ],
+    "excerpt": "This recipe builds a contact form that works with or without JavaScript: - No JS: a plain HTML form posts to the actions endpoint, the server redirects back, and the error appears via  - With JS: the "
+  },
+  {
+    "title": "Blog with Content Collections",
+    "description": "A complete blog — content collections, dynamic routes, ISR, and JSON-LD",
+    "section": "Recipes",
+    "slug": "recipes/blog",
+    "headings": [
+      "1. Define the collection",
+      "2. Write a post",
+      "3. Listing page",
+      "4. Post page (static)",
+      "5. Per-page metadata and JSON-LD",
+      "6. Prev/next and sitemap",
+      "Result"
+    ],
+    "excerpt": "This recipe builds a complete blog: Markdown posts from the content layer, a listing page, dynamic post pages with ISR, and structured data. Everything is runnable — copy the files into a fresh projec"
   },
   {
     "title": "Content Layer",
@@ -463,5 +664,37 @@
       "`@deijose/nix-js-kit/adapters/node`"
     ],
     "excerpt": "Complete reference for all exports from ."
+  },
+  {
+    "title": "Troubleshooting",
+    "description": "Common errors and how to fix them — build, SSR, hydration, and deployments",
+    "section": "Reference",
+    "slug": "reference/troubleshooting",
+    "headings": [
+      "Build",
+      "\"Missing value for dynamic segment\"",
+      "Dynamic routes are reported as `skipped`",
+      "`Schema validation failed for \"<file>\"`",
+      "\"marked is not installed\" / \"zod not found\" / sharp warnings",
+      "SSR server",
+      "404 page shows as plain text",
+      "Headers set in middleware never reach the page",
+      "ISR cache is never served",
+      "Client / hydration",
+      "Island never hydrates",
+      "Clicking a link does a full page reload",
+      "Lots of `__nix-js/render` 404s in the console",
+      "Styles flash on first navigation",
+      "Deployments",
+      "Vercel: \"Build error: `_setSSR` not found\"",
+      "Adapter says \"Run nix-js-kit build first\"",
+      "Static host returns 404 for deep links",
+      "Forms and actions",
+      "Action returns 403 \"Cross-origin request blocked\"",
+      "Form error values never appear in the page",
+      "Environment",
+      "`.env` values are `undefined` in loaders"
+    ],
+    "excerpt": "did not return a value for every dynamic segment of the route. Fix the params object: Routes without  are not built statically. Either add the export, or rely on SSR (dev/start/adapters render them on"
   }
 ]

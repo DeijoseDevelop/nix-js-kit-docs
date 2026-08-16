@@ -30,6 +30,7 @@ const SECTION_ORDER = [
   "Server",
   "Tooling",
   "Deploy",
+  "Recipes",
   "Reference",
 ];
 

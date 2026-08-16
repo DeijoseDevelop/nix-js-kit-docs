@@ -145,5 +145,5 @@ main();
 ```
 
 :::tip
-For production deployments, use the [adapters](/docs/adapters) instead of a custom server. They handle bundling, static file serving, and platform-specific configuration automatically.
+For production deployments, use the [adapters](/docs/deploy/adapters) instead of a custom server. They handle bundling, static file serving, and platform-specific configuration automatically.
 :::

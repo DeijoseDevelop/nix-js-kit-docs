@@ -73,7 +73,7 @@ const renderer = {
 
 // ── Callout transform (:::note ... :::) ────────────────────────────────────
 
-function transformCallouts(html: string): string {
+function transformCallouts(source: string): string {
   const calloutTypes: Record<string, { cls: string; label: string; icon: string }> = {
     note: { cls: "callout-note", label: "Note", icon: "ℹ" },
     tip: { cls: "callout-tip", label: "Tip", icon: "💡" },
@@ -82,15 +82,42 @@ function transformCallouts(html: string): string {
     danger: { cls: "callout-danger", label: "Danger", icon: "⛔" },
   };
 
-  return html.replace(
-    /<p>:::(note|tip|warning|caution|danger)\s*(.*?)<\/p>([\s\S]*?)<p>:::<\/p>/g,
-    (_match, type: string, title: string, body: string) => {
-      const c = calloutTypes[type];
-      if (!c) return _match;
-      const label = title.trim() || c.label;
-      return `<div class="callout ${c.cls}"><div class="callout-title">${c.icon} ${label}</div>${body}</div>`;
-    },
-  );
+  // Line-based parser (robust where a regex over `\n:::` boundaries is not).
+  // The inner body is parsed separately so markdown inside callouts renders.
+  const lines = source.split("\n");
+  const out: string[] = [];
+  let type: string | null = null;
+  let title = "";
+  let body: string[] = [];
+
+  const flush = () => {
+    if (!type) return;
+    const c = calloutTypes[type];
+    const bodyHtml = marked.parse(body.join("\n"), { async: false }) as string;
+    out.push(`<div class="callout ${c.cls}"><div class="callout-title">${c.icon} ${title.trim() || c.label}</div>${bodyHtml}</div>`);
+    type = null;
+    title = "";
+    body = [];
+  };
+
+  for (const line of lines) {
+    const open = line.match(/^:::(note|tip|warning|caution|danger)(?:\s+(.*))?$/);
+    if (open) {
+      flush();
+      type = open[1];
+      title = open[2] ?? "";
+      continue;
+    }
+    if (type !== null && line.trim() === ":::") {
+      flush();
+      continue;
+    }
+    if (type !== null) body.push(line);
+    else out.push(line);
+  }
+  flush();
+
+  return out.join("\n");
 }
 
 // ── Heading slugifier ──────────────────────────────────────────────────────
@@ -185,11 +212,11 @@ export async function renderMarkdown(source: string): Promise<RenderResult> {
     renderer,
   });
 
-  // First pass: marked converts MD to HTML (code blocks become placeholders)
-  let html = marked.parse(source, { async: false }) as string;
+  // First pass: callouts become HTML (inner body parsed separately)
+  const withCallouts = transformCallouts(source);
 
-  // Transform callouts
-  html = transformCallouts(html);
+  // Second pass: marked converts MD to HTML (code blocks become placeholders)
+  let html = marked.parse(withCallouts, { async: false }) as string;
 
   // Transform headings (add anchors, collect TOC)
   html = transformHeadings(html, toc);
