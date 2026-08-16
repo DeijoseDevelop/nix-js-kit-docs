@@ -1,0 +1,189 @@
+/* ============================================================================
+   Prose — styles for rendered Markdown content
+   ============================================================================ */
+
+.prose {
+  font-size: var(--fs-base);
+  line-height: var(--lh-relaxed);
+  color: var(--text);
+}
+
+.prose h1 {
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-bold);
+  margin-bottom: var(--sp-3);
+  letter-spacing: -0.03em;
+}
+
+.prose h2 {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-semibold);
+  margin-top: var(--sp-12);
+  margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.prose h3 {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+  margin-top: var(--sp-8);
+  margin-bottom: var(--sp-3);
+}
+
+.prose h4 {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  margin-top: var(--sp-6);
+  margin-bottom: var(--sp-2);
+}
+
+.prose p {
+  margin: var(--sp-4) 0;
+  color: var(--text);
+}
+
+.prose a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: var(--border-2);
+  text-underline-offset: 2px;
+  transition: text-decoration-color var(--t-fast);
+}
+
+.prose a:hover {
+  text-decoration-color: var(--link);
+}
+
+.prose ul,
+.prose ol {
+  margin: var(--sp-4) 0;
+  padding-left: var(--sp-6);
+}
+
+.prose li {
+  margin: var(--sp-2) 0;
+}
+
+.prose ul li::marker {
+  color: var(--brand);
+}
+
+.prose ol li::marker {
+  color: var(--brand);
+  font-weight: var(--fw-medium);
+}
+
+.prose code:not(pre code) {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  border-radius: var(--r-sm);
+  font-size: 0.85em;
+  color: var(--accent-text);
+  font-family: var(--font-mono);
+}
+
+.prose pre {
+  margin: var(--sp-5) 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow-x: auto;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+}
+
+.prose pre code {
+  font-family: var(--font-mono);
+  background: none;
+  padding: 0;
+  border: none;
+  color: var(--text);
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--brand);
+  padding: var(--sp-2) var(--sp-5);
+  margin: var(--sp-6) 0;
+  color: var(--text-2);
+  background: var(--bg-2);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+
+.prose blockquote p {
+  margin: var(--sp-2) 0;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: var(--sp-8) 0;
+}
+
+.prose img {
+  border-radius: var(--r-md);
+  margin: var(--sp-6) auto;
+  border: 1px solid var(--border);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-5) 0;
+  font-size: var(--fs-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.prose th,
+.prose td {
+  padding: var(--sp-3) var(--sp-4);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.prose th {
+  background: var(--bg-2);
+  font-weight: var(--fw-semibold);
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── Shiki syntax highlighting (dual theme via CSS variables) ── */
+/* Shiki outputs inline `color:` (dark) and `--shiki-light` (light) on each
+   span. In light mode we override `color` with the `--shiki-light` value. */
+.shiki {
+  background-color: #24292e !important;
+  color: #e1e4e8 !important;
+  padding: var(--sp-4) var(--sp-5) !important;
+  border-radius: var(--r-md) !important;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  border: 1px solid var(--border);
+  margin: var(--sp-5) 0;
+}
+
+.shiki code {
+  display: block;
+  font-family: var(--font-mono);
+  background: none !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* Light theme: use the --shiki-light variable instead of the inline color */
+:root[data-theme="light"] .shiki {
+  background-color: #f6f8fa !important;
+  color: #24292e !important;
+  border-color: #d0d7de;
+}
+
+:root[data-theme="light"] .shiki span {
+  color: var(--shiki-light, inherit) !important;
+}

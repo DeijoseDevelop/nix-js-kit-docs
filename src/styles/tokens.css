@@ -1,0 +1,186 @@
+/* ============================================================================
+   Design tokens — Nix.js Kit Docs
+   Dark-first with a refined light theme. Inspired by Astro Starlight,
+   Vite docs, and Linear's design language.
+   ============================================================================ */
+
+:root {
+  /* ── Brand ── */
+  --brand: #6d5ef5;
+  --brand-2: #8b7cf7;
+  --brand-3: #38bdf8;
+  --brand-glow: rgba(109, 94, 245, 0.3);
+
+  /* ── Semantic (dark theme default) ── */
+  --bg: #0a0a12;
+  --bg-2: #0f0f1a;
+  --bg-3: #15152400;
+  --bg-card: #12121e;
+  --bg-code: #0d0d16;
+  --bg-hover: #1a1a2e;
+
+  --border: rgba(124, 106, 247, 0.12);
+  --border-2: rgba(124, 106, 247, 0.22);
+  --border-strong: rgba(255, 255, 255, 0.08);
+
+  --text: #e4e4f0;
+  --text-2: #9999b8;
+  --text-3: #5a5a7a;
+  --text-inverse: #0a0a12;
+
+  --accent: var(--brand);
+  --accent-text: #c4b5fd;
+  --link: var(--brand-2);
+  --link-hover: #c4b5fd;
+
+  --green: #34d399;
+  --gold: #fbbf24;
+  --red: #f87171;
+  --blue: #38bdf8;
+
+  /* ── Callout colors ── */
+  --callout-note-bg: rgba(56, 189, 248, 0.08);
+  --callout-note-border: rgba(56, 189, 248, 0.3);
+  --callout-tip-bg: rgba(52, 211, 153, 0.08);
+  --callout-tip-border: rgba(52, 211, 153, 0.3);
+  --callout-warn-bg: rgba(251, 191, 36, 0.08);
+  --callout-warn-border: rgba(251, 191, 36, 0.3);
+  --callout-danger-bg: rgba(248, 113, 113, 0.08);
+  --callout-danger-border: rgba(248, 113, 113, 0.3);
+
+  /* ── Typography ── */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "SF Mono", monospace;
+
+  --fs-xs: 0.75rem;
+  /* 12px */
+  --fs-sm: 0.875rem;
+  /* 14px */
+  --fs-base: 1rem;
+  /* 16px */
+  --fs-lg: 1.125rem;
+  /* 18px */
+  --fs-xl: 1.25rem;
+  /* 20px */
+  --fs-2xl: 1.5rem;
+  /* 24px */
+  --fs-3xl: 2rem;
+  /* 32px */
+  --fs-4xl: 2.5rem;
+  /* 40px */
+  --fs-5xl: 3.5rem;
+  /* 56px */
+
+  --lh-tight: 1.25;
+  --lh-normal: 1.6;
+  --lh-relaxed: 1.75;
+
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* ── Spacing scale (4px base) ── */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --sp-24: 96px;
+
+  /* ── Layout ── */
+  --sidebar-w: 280px;
+  --toc-w: 240px;
+  --content-max: 780px;
+  --topbar-h: 56px;
+
+  /* ── Radii ── */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 20px;
+  --r-full: 9999px;
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 24px var(--brand-glow);
+
+  /* ── Transitions ── */
+  --t-fast: 120ms ease;
+  --t-normal: 200ms ease;
+  --t-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Z-index ── */
+  --z-sidebar: 100;
+  --z-topbar: 200;
+  --z-drawer: 300;
+  --z-modal: 400;
+  --z-overlay: 350;
+}
+
+/* ── Light theme ── */
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --bg-2: #f8f8fc;
+  --bg-3: #f0f0f8;
+  --bg-card: #ffffff;
+  --bg-code: #f6f6fa;
+  --bg-hover: #f0f0f8;
+
+  --border: rgba(124, 106, 247, 0.15);
+  --border-2: rgba(124, 106, 247, 0.28);
+  --border-strong: rgba(0, 0, 0, 0.08);
+
+  --text: #1a1a2e;
+  --text-2: #555570;
+  --text-3: #9999b0;
+  --text-inverse: #ffffff;
+
+  --accent-text: #6d5ce0;
+  --link: #6d5ce0;
+  --link-hover: #5a4ad0;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 24px rgba(124, 106, 247, 0.15);
+
+  --callout-note-bg: rgba(56, 189, 248, 0.06);
+  --callout-tip-bg: rgba(52, 211, 153, 0.06);
+  --callout-warn-bg: rgba(251, 191, 36, 0.06);
+  --callout-danger-bg: rgba(248, 113, 113, 0.06);
+}
+
+/* Respect system preference if no explicit theme set */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --bg: #ffffff;
+    --bg-2: #f8f8fc;
+    --bg-3: #f0f0f8;
+    --bg-card: #ffffff;
+    --bg-code: #f6f6fa;
+    --bg-hover: #f0f0f8;
+    --border: rgba(124, 106, 247, 0.15);
+    --border-2: rgba(124, 106, 247, 0.28);
+    --border-strong: rgba(0, 0, 0, 0.08);
+    --text: #1a1a2e;
+    --text-2: #555570;
+    --text-3: #9999b0;
+    --text-inverse: #ffffff;
+    --accent-text: #6d5ce0;
+    --link: #6d5ce0;
+    --link-hover: #5a4ad0;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+    --shadow-glow: 0 0 24px rgba(124, 106, 247, 0.15);
+  }
+}
