@@ -150,6 +150,39 @@
   }
 }
 
+/* ── Responsive topbar ── */
+@media (max-width: 1023px) {
+  .topbar-breadcrumb {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    padding: 0 var(--sp-3);
+    gap: var(--sp-2);
+  }
+
+  .topbar-version {
+    display: none;
+  }
+
+  .topbar-brand {
+    font-size: var(--fs-base);
+  }
+
+  .topbar-brand img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .topbar-link {
+    font-size: 0;
+    gap: 0;
+    padding: var(--sp-2);
+  }
+}
+
 /* ── Sidebar ── */
 .sidebar {
   grid-area: sidebar;
@@ -168,10 +201,11 @@
     top: var(--topbar-h);
     left: 0;
     bottom: 0;
-    width: var(--sidebar-w);
-    z-index: var(--z-drawer);
+    width: min(var(--sidebar-w), 85vw);
+    z-index: var(--z-modal);
     transform: translateX(-100%);
     transition: transform var(--t-normal);
+    box-shadow: var(--shadow-lg);
   }
 
   .sidebar.open {
@@ -279,9 +313,15 @@
 /* ── Main content ── */
 .main {
   grid-area: main;
+  min-width: 0;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+}
+
+/* Lock page scrolling while the mobile drawer is open */
+body.drawer-open .main {
+  overflow: hidden;
 }
 
 .content-wrapper {
@@ -301,9 +341,18 @@
 /* ── TOC (right sidebar) ── */
 .toc {
   grid-area: toc;
+  min-width: 0;
   overflow-y: auto;
   padding: var(--sp-8) var(--sp-5);
   border-left: 1px solid var(--border);
+}
+
+/* TOC is a 3rd grid column only on wide screens; hide it otherwise so it
+   doesn't leak into the implicit grid and squeeze the content column. */
+@media (max-width: 1279px) {
+  .toc {
+    display: none;
+  }
 }
 
 .toc-title {

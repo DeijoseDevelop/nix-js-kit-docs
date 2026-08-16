@@ -187,3 +187,12 @@
 :root[data-theme="light"] .shiki span {
   color: var(--shiki-light, inherit) !important;
 }
+
+/* ── Responsive tables: scroll horizontally instead of blowing up the layout ── */
+@media (max-width: 1023px) {
+  .prose table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

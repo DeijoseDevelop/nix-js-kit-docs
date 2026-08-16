@@ -59,7 +59,12 @@ export default function DocsLayout({
             <!-- Topbar -->
             <header class="topbar">
                 <div class="topbar-left">
-                    ${islandMarker("MobileDrawer", {}, "load")}
+                    ${islandMarker(
+        "MobileDrawer",
+        {},
+        "load",
+        '<button class="topbar-icon-btn menu-btn" aria-label="Toggle menu" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>',
+    )}
                     <a href="/" class="topbar-brand">
                     <img src="/nix-js-logo.png" alt="Nix.js Kit" width="28" height="28" style="width:28px;height:28px;object-fit:contain" />
                     <span>Nix<em>.</em>js Kit</span></a><span class="topbar-version">v1.4.6</span>
