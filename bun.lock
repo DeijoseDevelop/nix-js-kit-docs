@@ -5,8 +5,8 @@
     "": {
       "name": "nix-js-kit-docs",
       "dependencies": {
-        "@deijose/nix-js": "^2.6.0",
-        "@deijose/nix-js-kit": "1.4.2",
+        "@deijose/nix-js": "2.6.0",
+        "@deijose/nix-js-kit": "1.4.3",
         "marked": "^16.0.0",
         "zod": "^4.0.0",
       },
@@ -20,7 +20,7 @@
   "packages": {
     "@deijose/nix-js": ["@deijose/nix-js@2.6.0", "", {}, "sha512-5ILcfTBIGEEscRnIwJJ4uRcJzsS665tD2TLe+zAtxGC6yO+6qr5Haq61GVsDvTwDdiX0LmQWEXOQnp7HrmPp/Q=="],
 
-    "@deijose/nix-js-kit": ["@deijose/nix-js-kit@1.4.2", "", { "dependencies": { "happy-dom": "^20.8.3", "tsx": "^4.22.5" }, "peerDependencies": { "@deijose/nix-js": "^2.5.3", "vite": "^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0" }, "bin": { "nix-js-kit": "bin/nix-js-kit.js" } }, "sha512-lpRtGLZColjjY0Gj6OUW8APZgsSUSUk6084HOtUHL9pZ1ckIs6lve7trxgYT8QvPGhFZ4xvo2/KwlFOBKt4O4g=="],
+    "@deijose/nix-js-kit": ["@deijose/nix-js-kit@1.4.3", "", { "dependencies": { "happy-dom": "^20.8.3", "tsx": "^4.22.5" }, "peerDependencies": { "@deijose/nix-js": "2.6.0", "vite": "^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0" }, "bin": { "nix-js-kit": "bin/nix-js-kit.js" } }, "sha512-3xTEzkGSk/VfA8VShzh9HnzF6PF837Wn8Ncteb1LSjsUAzaYDdQ2naREXtrcBKrfASHG+zw1TZUej1h/CTtt0A=="],
 
     "@esbuild/aix-ppc64": ["@esbuild/aix-ppc64@0.28.2", "", { "os": "aix", "cpu": "ppc64" }, "sha512-XExcO+dvLKvVtNTibSTBej1NCAbaGhWn9Ww1ZPx80qsahhPFe/8jgWP0IchNe0F3HwkU7n8ejhH8bjonqht8mQ=="],
 
