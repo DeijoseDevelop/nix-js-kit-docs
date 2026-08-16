@@ -7,7 +7,7 @@ import { resolve } from "node:path";
 import { getDocsCollection } from "../src/app/lib/content-scan.ts";
 
 async function main() {
-  const siteUrl = "https://nix-js-kit.dev";
+  const siteUrl = "https://kit.nix-js.dev";
   const outDir = resolve(process.cwd(), "dist");
 
   const entries = await getDocsCollection();

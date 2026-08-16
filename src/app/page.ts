@@ -8,49 +8,43 @@ import type { PageProps, PageMetadata } from "@deijose/nix-js-kit";
 import { getDocsNav, type NavSection } from "./lib/docs-nav";
 
 export const generateMetadata = (): PageMetadata => ({
-  title: "Nix.js Kit — Full-stack meta-framework for Nix.js",
-  description:
-    "File-based routing, SSG, SSR, ISR, islands, content collections, image optimization, middleware, and SPA-like navigation. Zero extra client runtime dependencies.",
-  openGraph: {
-    type: "website",
     title: "Nix.js Kit — Full-stack meta-framework for Nix.js",
     description:
-      "Next.js conventions with Astro-style islands. Zero client JS by default.",
-    siteName: "Nix.js Kit",
-  },
+        "File-based routing, SSG, SSR, ISR, islands, content collections, image optimization, middleware, and SPA-like navigation. Zero extra client runtime dependencies.",
+    canonical: "https://kit.nix-js.dev/",
+    openGraph: {
+        type: "website",
+        title: "Nix.js Kit — Full-stack meta-framework for Nix.js",
+        description:
+            "Next.js conventions with Astro-style islands. Zero client JS by default.",
+        siteName: "Nix.js Kit",
+        url: "https://kit.nix-js.dev/",
+        image: "https://kit.nix-js.dev/og-image.png",
+        locale: "en_US",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Nix.js Kit — Full-stack meta-framework for Nix.js",
+        description:
+            "Next.js conventions with Astro-style islands. Zero client JS by default.",
+        image: "https://kit.nix-js.dev/og-image.png",
+    },
 });
 
 interface LandingData {
-  sections: NavSection[];
+    sections: NavSection[];
+    quickExampleHtml: string;
 }
 
-const quickExampleCode = [
-  'import { html, signal } from "@deijose/nix-js";',
-  'import type { PageProps } from "@deijose/nix-js-kit";',
-  'import { load } from "./page.data.ts";',
-  "",
-  "export default function HomePage({ data }: PageProps<typeof load>) {",
-  "  const liked = signal(false);",
-  "",
-  "  return html`",
-  "    <article>",
-  "      <h1>${data.title}</h1>",
-  "      <button @click=${() => (liked.value = !liked.value)}>",
-  "        ${() => (liked.value ? \"★ Liked\" : \"☆ Like\")}",
-  "      </button>",
-  "    </article>",
-  "  `;",
-  "}",
-].join("\n");
-
 export default function HomePage({ data }: PageProps<unknown>) {
-  const d = data as LandingData | undefined;
-  const sections = d?.sections ?? [];
+    const d = data as LandingData | undefined;
+    const sections = d?.sections ?? [];
+    const quickExampleHtml = d?.quickExampleHtml ?? "";
 
-  return html`
+    return html`
         ${raw(
-    '<link rel="stylesheet" href="/styles.css" /><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />',
-  )}
+        '<link rel="stylesheet" href="/styles.css" /><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />',
+    )}
 
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -186,9 +180,7 @@ export default function HomePage({ data }: PageProps<unknown>) {
                 <div class="code-block-head">
                     <span class="code-block-filename">src/app/page.ts</span><span class="code-block-lang">typescript</span>
                 </div>
-                <pre>
-                    <code>${quickExampleCode}</code>
-                </pre>
+                ${raw(quickExampleHtml)}
             </div>
 
             <div style="text-align:center;margin-top:var(--sp-8)">

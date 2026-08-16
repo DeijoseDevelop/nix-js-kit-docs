@@ -152,6 +152,28 @@ async function transformCodeBlocks(html: string): Promise<string> {
   );
 }
 
+// ── Standalone code highlighter (for use outside Markdown) ────────────────
+
+export async function highlightCode(
+  code: string,
+  lang: string = "typescript",
+): Promise<string> {
+  const hl = await getHighlighter();
+  try {
+    return hl.codeToHtml(code, {
+      lang: lang as BundledLanguage,
+      themes: { dark: "github-dark", light: "github-light" },
+      defaultColor: "dark",
+    });
+  } catch {
+    const escaped = code
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    return `<pre><code>${escaped}</code></pre>`;
+  }
+}
+
 // ── Main render function ───────────────────────────────────────────────────
 
 export async function renderMarkdown(source: string): Promise<RenderResult> {

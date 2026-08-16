@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "nix-js-kit dev",
-    "build": "bun run scripts/gen-search-index.ts && nix-js-kit build --lang en && bun run scripts/copy-css.ts && bun run scripts/copy-public.ts",
+    "build": "bun run scripts/gen-search-index.ts && nix-js-kit build --lang en && bun run scripts/gen-seo.ts && bun run scripts/copy-css.ts && bun run scripts/copy-public.ts",
     "preview": "nix-js-kit preview",
     "start": "nix-js-kit start"
   },

@@ -18,18 +18,45 @@ interface DocPageData extends DocsLayoutData {
   notFound: boolean;
 }
 
+const SITE_URL = "https://kit.nix-js.dev";
+const OG_IMAGE = `${SITE_URL}/og-image.png`;
+
 export const generateMetadata = (ctx: {
   data?: DocPageData;
 }): PageMetadata => {
   const d = ctx.data;
   if (!d || d.notFound) {
-    return { title: "Not Found — Nix.js Kit Docs" };
+    return {
+      title: "Not Found — Nix.js Kit Docs",
+      canonical: `${SITE_URL}/404`,
+      robots: "noindex, follow",
+    };
   }
+  const slug = d.currentSlug;
+  const url = `${SITE_URL}/docs/${slug}`;
+  const title = `${d.currentTitle} — Nix.js Kit Docs`;
+  const description = d.currentSection
+    ? `${d.currentSection} — Nix.js Kit documentation`
+    : "Nix.js Kit documentation";
   return {
-    title: `${d.currentTitle} — Nix.js Kit Docs`,
-    description: d.currentSection
-      ? `${d.currentSection} — Nix.js Kit documentation`
-      : "Nix.js Kit documentation",
+    title,
+    description,
+    canonical: url,
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url,
+      siteName: "Nix.js Kit",
+      image: OG_IMAGE,
+      locale: "en_US",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      image: OG_IMAGE,
+    },
   };
 };
 

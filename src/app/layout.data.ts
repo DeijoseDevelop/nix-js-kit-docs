@@ -9,7 +9,7 @@ import { getDocsNav, getPrevNext } from "./lib/docs-nav";
 import { getDocEntry } from "./lib/content-scan";
 import { renderMarkdown } from "./lib/markdown";
 
-const SITE_URL = "https://nix-js-kit.dev";
+const SITE_URL = "https://kit.nix-js.dev";
 
 export const load: PageDataLoad = async ({ params }) => {
   const sections = await getDocsNav();
