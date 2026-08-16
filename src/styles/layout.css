@@ -193,6 +193,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--sp-1);
+  /* Grid items with scrollable content leak their overflow into the root
+     scroll area in Chromium; contain:paint keeps the site-level scrollbar
+     from appearing while preserving internal scrolling. */
+  contain: paint;
 }
 
 @media (max-width: 1023px) {
@@ -317,6 +321,7 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  contain: paint;
 }
 
 /* Lock page scrolling while the mobile drawer is open */
@@ -345,6 +350,7 @@ body.drawer-open .main {
   overflow-y: auto;
   padding: var(--sp-8) var(--sp-5);
   border-left: 1px solid var(--border);
+  contain: paint;
 }
 
 /* TOC is a 3rd grid column only on wide screens; hide it otherwise so it
