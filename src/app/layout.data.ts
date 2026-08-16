@@ -8,6 +8,7 @@ import { jsonLd } from "@deijose/nix-js-kit/seo";
 import { getDocsNav, getPrevNext } from "./lib/docs-nav";
 import { getDocEntry } from "./lib/content-scan";
 import { renderMarkdown } from "./lib/markdown";
+import { getInlineCss } from "./lib/inline-css";
 
 const SITE_URL = "https://kit.nix-js.dev";
 
@@ -19,8 +20,14 @@ export const load: PageDataLoad = async ({ params }) => {
     "(function(){try{var t=localStorage.getItem('nix-js-kit-docs-theme');if(t){document.documentElement.setAttribute('data-theme',t)}}catch(e){}})();",
   ];
 
-  // Favicon and manifest links — injected into <head> via headLinks
+  // Inline CSS — all styles in a single <style> in <head>: zero render-blocking
+  // requests. Escaped so a stray `</style>` in the CSS cannot break the tag.
+  const inlineCss = await getInlineCss();
+  const safeCss = inlineCss.replace(/<\/style>/gi, "<\\/style>");
+
+  // Favicon, manifest and inline styles — injected into <head> via headLinks
   const headLinks: string[] = [
+    `<style>${safeCss}</style>`,
     '<link rel="icon" type="image/x-icon" href="/ico/favicon.ico" />',
     '<link rel="apple-touch-icon" sizes="180x180" href="/ico/apple-icon-180x180.png" />',
     '<link rel="icon" type="image/png" sizes="32x32" href="/ico/favicon-32x32.png" />',

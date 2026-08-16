@@ -42,24 +42,10 @@ export default function HomePage({ data }: PageProps<unknown>) {
     const quickExampleHtml = d?.quickExampleHtml ?? "";
 
     return html`
-        ${raw(
-        '<link rel="stylesheet" href="/styles.css" /><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />',
-    )}
-
-        <style>
-            * { margin: 0; padding: 0; box-sizing: border-box; }
-      body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: var(--font-sans);
-        line-height: var(--lh-normal);
-      }
-        </style>
-
         <!-- Hero -->
         <section class="hero">
             <div class="hero-eyebrow">
-                Documentation · v1.4.6
+                Documentation · v1.4.7
             </div>
             <h1>
                 Nix<em>.</em>js Kit
@@ -73,7 +59,7 @@ export default function HomePage({ data }: PageProps<unknown>) {
             </div>
 
             <div class="hero-actions">
-                <a class="btn btn-primary" href="/docs/introduction"> Get started → </a>
+                <a class="btn btn-primary" href="/docs/getting-started/introduction"> Get started → </a>
                 <a
                     class="btn btn-outline"
                     href="https://www.npmjs.com/package/@deijose/nix-js-kit"

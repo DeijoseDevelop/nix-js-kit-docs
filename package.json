@@ -5,17 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "nix-js-kit dev",
-    "build": "bun run scripts/gen-search-index.ts && nix-js-kit build --lang en && bun run scripts/gen-seo.ts && bun run scripts/copy-css.ts && bun run scripts/copy-public.ts",
+    "build": "bun run scripts/gen-search-index.ts && nix-js-kit build --lang en && bun run scripts/gen-seo.ts && bun run scripts/copy-public.ts",
     "preview": "nix-js-kit preview",
     "start": "nix-js-kit start"
   },
   "dependencies": {
     "@deijose/nix-js": "2.6.0",
-    "@deijose/nix-js-kit": "1.4.6",
+    "@deijose/nix-js-kit": "1.4.7",
     "marked": "^16.0.0",
     "zod": "^4.0.0"
   },
   "devDependencies": {
+    "sharp": "^0.35.3",
     "shiki": "^3.0.0",
     "typescript": "^7.0.2",
     "vite": "^8.0.0"

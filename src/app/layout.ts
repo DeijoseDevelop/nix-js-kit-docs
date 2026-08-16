@@ -49,10 +49,6 @@ export default function DocsLayout({
     `;
 
     return html`
-        ${raw(
-        '<link rel="stylesheet" href="/styles.css" /><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />',
-    )}
-
         <a href="#main-content" class="skip-link">Skip to content</a>
 
         <div class="docs-layout">
@@ -66,8 +62,11 @@ export default function DocsLayout({
         '<button class="topbar-icon-btn menu-btn" aria-label="Toggle menu" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>',
     )}
                     <a href="/" class="topbar-brand">
-                    <img src="/nix-js-logo.png" alt="Nix.js Kit" width="28" height="28" style="width:28px;height:28px;object-fit:contain" />
-                    <span>Nix<em>.</em>js Kit</span></a><span class="topbar-version">v1.4.6</span>
+                    <picture>
+                        <source srcset="/nix-js-logo-112.webp" type="image/webp" />
+                        <img src="/nix-js-logo-112.png" alt="Nix.js Kit" width="28" height="19" style="width:28px;height:19px;object-fit:contain" />
+                    </picture>
+                    <span>Nix<em>.</em>js Kit</span></a><span class="topbar-version">v1.4.7</span>
                 </div>
 
                 <div class="topbar-breadcrumb">
