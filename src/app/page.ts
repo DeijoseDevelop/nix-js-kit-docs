@@ -43,7 +43,7 @@ export default function HomePage({ data }: PageProps<unknown>) {
 
     return html`
         ${raw(
-        '<link rel="stylesheet" href="/styles.css" /><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" /><link rel="icon" type="image/x-icon" href="/ico/favicon.ico" /><link rel="apple-touch-icon" sizes="180x180" href="/ico/apple-icon-180x180.png" /><link rel="icon" type="image/png" sizes="32x32" href="/ico/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="/ico/favicon-16x16.png" /><link rel="manifest" href="/ico/manifest.json" /><meta name="theme-color" content="#2d21a6" />',
+        '<link rel="stylesheet" href="/styles.css" /><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />',
     )}
 
         <style>
@@ -59,7 +59,7 @@ export default function HomePage({ data }: PageProps<unknown>) {
         <!-- Hero -->
         <section class="hero">
             <div class="hero-eyebrow">
-                Documentation · v1.3.0
+                Documentation · v1.4.5
             </div>
             <h1>
                 Nix<em>.</em>js Kit

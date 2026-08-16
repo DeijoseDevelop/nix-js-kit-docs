@@ -19,6 +19,16 @@ export const load: PageDataLoad = async ({ params }) => {
     "(function(){try{var t=localStorage.getItem('nix-js-kit-docs-theme');if(t){document.documentElement.setAttribute('data-theme',t)}}catch(e){}})();",
   ];
 
+  // Favicon and manifest links — injected into <head> via headLinks
+  const headLinks: string[] = [
+    '<link rel="icon" type="image/x-icon" href="/ico/favicon.ico" />',
+    '<link rel="apple-touch-icon" sizes="180x180" href="/ico/apple-icon-180x180.png" />',
+    '<link rel="icon" type="image/png" sizes="32x32" href="/ico/favicon-32x32.png" />',
+    '<link rel="icon" type="image/png" sizes="16x16" href="/ico/favicon-16x16.png" />',
+    '<link rel="manifest" href="/ico/manifest.json" />',
+    '<meta name="theme-color" content="#2d21a6" />',
+  ];
+
   // For the landing page (no slug param), just return sections
   const slugParts = (params as Record<string, unknown>).slug;
   if (!slugParts) {
@@ -35,6 +45,7 @@ export const load: PageDataLoad = async ({ params }) => {
     );
     return {
       headScripts,
+      headLinks,
       sections,
       toc: [],
       prev: undefined,
@@ -56,6 +67,7 @@ export const load: PageDataLoad = async ({ params }) => {
   if (!entry) {
     return {
       headScripts,
+      headLinks,
       sections,
       toc: [],
       prev: undefined,
@@ -93,6 +105,7 @@ export const load: PageDataLoad = async ({ params }) => {
 
   return {
     headScripts,
+    headLinks,
     sections,
     toc,
     prev: prev ? { slug: prev.slug, title: prev.title } : undefined,
