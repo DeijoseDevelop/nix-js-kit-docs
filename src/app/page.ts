@@ -19,7 +19,11 @@ export const generateMetadata = (): PageMetadata => ({
             "Next.js conventions with Astro-style islands. Zero client JS by default.",
         siteName: "Nix.js Kit",
         url: "https://kit.nix-js.dev/",
-        image: "https://kit.nix-js.dev/og-image.png",
+        image: "https://kit.nix-js.dev/og-image.jpg",
+        imageAlt: "Nix.js Kit — full-stack meta-framework for Nix.js",
+        imageWidth: 1731,
+        imageHeight: 909,
+        imageType: "image/jpeg",
         locale: "en_US",
     },
     twitter: {
@@ -27,7 +31,8 @@ export const generateMetadata = (): PageMetadata => ({
         title: "Nix.js Kit — Full-stack meta-framework for Nix.js",
         description:
             "Next.js conventions with Astro-style islands. Zero client JS by default.",
-        image: "https://kit.nix-js.dev/og-image.png",
+        image: "https://kit.nix-js.dev/og-image.jpg",
+        imageAlt: "Nix.js Kit — full-stack meta-framework for Nix.js",
     },
 });
 

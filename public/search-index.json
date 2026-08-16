@@ -69,7 +69,7 @@
       "Head tag generation",
       "SPA head merge"
     ],
-    "excerpt": "The metadata API lets you control the  tags for each page — title, description, OpenGraph, Twitter cards, canonical URLs, and more. Export a  function from : Metadata is collected from three sources, "
+    "excerpt": "The metadata API lets you control the  tags for each page — title, description, OpenGraph, Twitter cards, canonical URLs, and more. Export a  function from : , , , and  help social scrapers (Twitter/X"
   },
   {
     "title": "Quick Start",

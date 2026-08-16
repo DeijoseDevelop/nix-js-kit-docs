@@ -19,7 +19,11 @@ interface DocPageData extends DocsLayoutData {
 }
 
 const SITE_URL = "https://kit.nix-js.dev";
-const OG_IMAGE = `${SITE_URL}/og-image.png`;
+const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
+const OG_IMAGE_ALT = "Nix.js Kit — full-stack meta-framework for Nix.js";
+const OG_IMAGE_WIDTH = 1731;
+const OG_IMAGE_HEIGHT = 909;
+const OG_IMAGE_TYPE = "image/jpeg";
 
 export const generateMetadata = (ctx: {
   data?: DocPageData;
@@ -49,6 +53,10 @@ export const generateMetadata = (ctx: {
       url,
       siteName: "Nix.js Kit",
       image: OG_IMAGE,
+      imageAlt: OG_IMAGE_ALT,
+      imageWidth: OG_IMAGE_WIDTH,
+      imageHeight: OG_IMAGE_HEIGHT,
+      imageType: OG_IMAGE_TYPE,
       locale: "en_US",
     },
     twitter: {
@@ -56,6 +64,7 @@ export const generateMetadata = (ctx: {
       title,
       description,
       image: OG_IMAGE,
+      imageAlt: OG_IMAGE_ALT,
     },
   };
 };

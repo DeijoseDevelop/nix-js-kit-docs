@@ -61,10 +61,20 @@ interface OpenGraphMetadata {
   description?: string; // falls back to page description
   url?: string;
   image?: string;
+  imageAlt?: string;    // og:image:alt
+  imageWidth?: number;  // og:image:width (px)
+  imageHeight?: number; // og:image:height (px)
+  imageType?: string;   // og:image:type, e.g. "image/jpeg"
   siteName?: string;
   locale?: string;      // e.g. "en_US"
 }
 ```
+
+:::tip
+`imageWidth`, `imageHeight`, `imageAlt`, and `imageType` help social scrapers
+(Twitter/X, LinkedIn, iMessage, WhatsApp) render share previews reliably.
+Use an image of at least 1200×630 and declare its dimensions.
+:::
 
 ### `TwitterMetadata`
 
@@ -74,6 +84,7 @@ interface TwitterMetadata {
   title?: string;
   description?: string;
   image?: string;
+  imageAlt?: string; // twitter:image:alt
 }
 ```
 
