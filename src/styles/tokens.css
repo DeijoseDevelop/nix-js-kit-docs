@@ -5,11 +5,11 @@
    ============================================================================ */
 
 :root {
-  /* ── Brand ── */
-  --brand: #6d5ef5;
-  --brand-2: #8b7cf7;
-  --brand-3: #38bdf8;
-  --brand-glow: rgba(109, 94, 245, 0.3);
+  /* ── Brand (Nix.js official colors) ── */
+  --brand: #3432c8;
+  --brand-2: #256fe1;
+  --brand-3: #2bc7f0;
+  --brand-glow: rgba(52, 50, 200, 0.3);
 
   /* ── Semantic (dark theme default) ── */
   --bg: #0a0a12;
@@ -19,8 +19,8 @@
   --bg-code: #0d0d16;
   --bg-hover: #1a1a2e;
 
-  --border: rgba(124, 106, 247, 0.12);
-  --border-2: rgba(124, 106, 247, 0.22);
+  --border: rgba(43, 199, 240, 0.12);
+  --border-2: rgba(43, 199, 240, 0.22);
   --border-strong: rgba(255, 255, 255, 0.08);
 
   --text: #e4e4f0;
@@ -29,9 +29,9 @@
   --text-inverse: #0a0a12;
 
   --accent: var(--brand);
-  --accent-text: #c4b5fd;
+  --accent-text: #2bc7f0;
   --link: var(--brand-2);
-  --link-hover: #c4b5fd;
+  --link-hover: #2bc7f0;
 
   --green: #34d399;
   --gold: #fbbf24;
@@ -135,8 +135,8 @@
   --bg-code: #f6f6fa;
   --bg-hover: #f0f0f8;
 
-  --border: rgba(124, 106, 247, 0.15);
-  --border-2: rgba(124, 106, 247, 0.28);
+  --border: rgba(52, 50, 200, 0.15);
+  --border-2: rgba(52, 50, 200, 0.28);
   --border-strong: rgba(0, 0, 0, 0.08);
 
   --text: #1a1a2e;
@@ -144,16 +144,16 @@
   --text-3: #9999b0;
   --text-inverse: #ffffff;
 
-  --accent-text: #6d5ce0;
-  --link: #6d5ce0;
-  --link-hover: #5a4ad0;
+  --accent-text: #3432c8;
+  --link: #3432c8;
+  --link-hover: #256fe1;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
-  --shadow-glow: 0 0 24px rgba(124, 106, 247, 0.15);
+  --shadow-glow: 0 0 24px rgba(52, 50, 200, 0.15);
 
-  --callout-note-bg: rgba(56, 189, 248, 0.06);
+  --callout-note-bg: rgba(43, 199, 240, 0.06);
   --callout-tip-bg: rgba(52, 211, 153, 0.06);
   --callout-warn-bg: rgba(251, 191, 36, 0.06);
   --callout-danger-bg: rgba(248, 113, 113, 0.06);
@@ -168,19 +168,19 @@
     --bg-card: #ffffff;
     --bg-code: #f6f6fa;
     --bg-hover: #f0f0f8;
-    --border: rgba(124, 106, 247, 0.15);
-    --border-2: rgba(124, 106, 247, 0.28);
+    --border: rgba(52, 50, 200, 0.15);
+    --border-2: rgba(52, 50, 200, 0.28);
     --border-strong: rgba(0, 0, 0, 0.08);
     --text: #1a1a2e;
     --text-2: #555570;
     --text-3: #9999b0;
     --text-inverse: #ffffff;
-    --accent-text: #6d5ce0;
-    --link: #6d5ce0;
-    --link-hover: #5a4ad0;
+    --accent-text: #3432c8;
+    --link: #3432c8;
+    --link-hover: #256fe1;
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
     --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
-    --shadow-glow: 0 0 24px rgba(124, 106, 247, 0.15);
+    --shadow-glow: 0 0 24px rgba(52, 50, 200, 0.15);
   }
 }
