@@ -87,6 +87,43 @@ nix-js-kit adapter bun      # → .nix-js/bun-server.ts
 nix-js-kit adapter node     # → .nix-js/node-server.mjs
 ```
 
+The `adapter` command also runs `validateCapabilities()` at build time, so incompatible host/feature combinations (e.g. ISR on a serverless host with no persistent filesystem) fail fast with a diagnostic message instead of producing a broken deployment. See [Adapter Capabilities](/docs/deploy/capabilities).
+
+### `nix-js-kit check`
+
+Runs typecheck + route/config integrity checks. Exits non-zero on errors.
+
+```bash
+nix-js-kit check
+```
+
+Combines `tsc --noEmit` with route manifest validation (duplicate paths, missing dynamic segment params, invalid file conventions).
+
+### `nix-js-kit routes`
+
+Lists all discovered routes from `src/app/`:
+
+```bash
+nix-js-kit routes
+```
+
+Output:
+
+```text
+GET  /                  src/app/page.ts
+GET  /blog/:slug        src/app/blog/[slug]/page.ts
+GET  /api/posts         src/app/api/posts/route.ts
+*    /__nix-js/actions  server actions endpoint
+```
+
+### `nix-js-kit doctor`
+
+Diagnoses common project issues — missing peer deps, invalid config, stale build artifacts, version mismatches between `nix-js` and `nix-js-kit`.
+
+```bash
+nix-js-kit doctor
+```
+
 ## Programmatic API
 
 You can use the CLI programmatically:

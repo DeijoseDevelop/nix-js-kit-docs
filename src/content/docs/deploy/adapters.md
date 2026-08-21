@@ -148,7 +148,32 @@ All adapters share the same pattern:
 5. **Forward cookies** to API routes and server actions
 6. **Render custom error pages** (404, 500)
 7. **Run middleware** if `src/middleware.ts` exists
+8. **Declare adapter capabilities** — each host declares an `AdapterCapabilities` object so the framework knows which features are safe to enable (streaming, filesystem, image runtime, background work). See [Adapter Capabilities](/docs/deploy/capabilities).
 
 :::note
 Adapters work with both Node (`node:sqlite`) and Bun (`bun:sqlite`) runtimes. The generated server entry detects the available runtime automatically.
 :::
+
+## Unified Web handler
+
+Since v2.0.2, every runtime path — `dev`, `preview`, `start`, and all four adapters — funnels through a single `createWebHandler()` function. This means:
+
+- **No duplicated logic** between dev, preview, and production adapters.
+- **Identical behavior** for actions, API routes, static serving, SSR, error pages, and the render endpoint across all runtimes.
+- **One place to fix bugs** — a fix in `createWebHandler` applies everywhere.
+
+```ts
+import { createWebHandler } from "@deijose/nix-js-kit/runtime";
+
+const handler = createWebHandler(routes, actions, {
+  staticRoot: "./dist",
+  lang: "en",
+  clientEntry: "/_nix-js/entry-client.js",
+  securityHeaders: true,
+});
+
+// Use with any Web-standard runtime
+const response = await handler(request);
+```
+
+See [Unified Web Handler](/docs/server/handler) for the full API.

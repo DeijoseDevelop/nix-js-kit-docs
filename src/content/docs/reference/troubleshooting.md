@@ -86,6 +86,29 @@ export const revalidate = 60; // seconds
 
 ## Client / hydration
 
+### "Hydration marker mismatch: Template has no hydration descriptor"
+
+The SSR output is missing hydration markers (`<!--nix-N-->`, `data-nix-e-*`). This happens when:
+
+- You're using an old version of `@deijose/nix-js` (pre-3.0) that doesn't emit markers.
+- A custom renderer bypasses `renderToString` from the kit.
+
+Fix: ensure `@deijose/nix-js@^3` and use the kit's `renderToString` which passes `markers: "hydration"` by default.
+
+### "e._render is not a function" (island hydration)
+
+The island registry passed a lazy loader function directly to `hydrateTemplate` instead of awaiting it. This was fixed in v2.0.1 — the registry now uses the discriminated `{ load }` form via `lazyIsland()`. If you have a custom entry, use `lazyIsland()`:
+
+```ts
+import { lazyIsland } from "@deijose/nix-js-kit/island";
+const Counter = lazyIsland(() => import("./Counter").then((m) => m.default));
+hydrateIslands({ Counter });
+```
+
+### Island returns null and breaks other islands
+
+Since v2.0.1, islands returning `null`, `false`, or `undefined` are treated as empty islands and hydration continues for siblings. If you're on an older version, upgrade. The error is now reported per-island without crashing global hydration.
+
 ### Island never hydrates
 
 - The island name passed to `island("Name", ...)` must match the filename (e.g. `src/islands/Counter.ts` → `"Counter"`)
@@ -99,6 +122,23 @@ The router only intercepts links matching `isInternalLink`: same hostname, empty
 ### Lots of `__nix-js/render` 404s in the console
 
 You are serving an old static build. Rebuild with `nix-js-kit build` — static output now emits `<meta name="nix-js:render-endpoint" content="off">`, so the router never probes the endpoint.
+
+### Island chunks 404 under `/assets/...`
+
+Vite generated chunk URLs like `/assets/Counter.js` instead of `/_nix-js/assets/Counter.js`. This was fixed in v2.0.1 — the client bundle now uses `base: "/_nix-js/"`. If you see this, upgrade to `@deijose/nix-js-kit@^2.0.1`.
+
+### `[object Object]` in rendered HTML
+
+The SSR array renderer produced `String(array)` instead of joining rendered items. This was a minifier name collision in the core build, fixed in `@deijose/nix-js@3.0.1`. Upgrade both packages:
+
+```json
+{
+  "dependencies": {
+    "@deijose/nix-js": "^3.0.1",
+    "@deijose/nix-js-kit": "^2.0.1"
+  }
+}
+```
 
 ### Styles flash on first navigation
 
@@ -130,6 +170,23 @@ nix-js-kit build && nix-js-kit adapter vercel
 ### Static host returns 404 for deep links
 
 Hosts like GitHub Pages need a catch-all fallback to `404.html`. For Vercel static, ensure `vercel.json` rewrites unknown paths to `/404.html` (or use the full Vercel adapter, which handles routing via Build Output API v3).
+
+### `nix-js-kit adapter` says "ISR requires a persistent filesystem"
+
+The target host declares `filesystem: "ephemeral"` (serverless) or `"readonly"` (edge), but your app uses ISR (`export const revalidate = ...`). Either:
+
+1. Remove ISR for routes that will run on serverless/edge, or
+2. Use the Node or Bun adapter (which has `filesystem: "persistent"`), or
+3. Use a persistent cache backend (planned for a future release).
+
+See [Adapter Capabilities](/docs/deploy/capabilities).
+
+### `nix-js-kit adapter` says "image transforms require imageRuntime=true"
+
+The target host doesn't support runtime image transforms. Either:
+
+1. Keep image processing at build time only (the default — `image()` variants are generated during `nix-js-kit build`), or
+2. Use the Node/Bun adapter which has `imageRuntime: true`.
 
 ## Forms and actions
 

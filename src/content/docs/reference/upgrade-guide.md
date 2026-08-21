@@ -7,6 +7,47 @@ order: 3
 
 # Upgrade Guide
 
+## Upgrading to v2.0.x
+
+v2.0 is a major release that adds DOM-free SSR, a unified Web handler, adapter capabilities, image pipeline hardening, island HMR, recursive content collections, and production error sanitization. It requires `@deijose/nix-js@^3.0.0`.
+
+### Breaking changes
+
+- **`@deijose/nix-js` peer dependency** — bumped to `^3.0.0` (DOM-free SSR, hydration markers).
+- **SSR is now DOM-free** — `renderToString` no longer uses happy-dom. Templates render directly from descriptors. Hydration markers (`<!--nix-N-->`, `data-nix-e-*`) are emitted by default.
+- **Unified Web handler** — `dev`, `preview`, `start`, and all adapters now share `createWebHandler()`. If you had custom request handling logic that duplicated the CLI pipeline, migrate to `createWebHandler` from `@deijose/nix-js-kit/runtime`.
+- **Production errors are sanitized** — `String(err)` is no longer used in responses. Use `publicErrorResponse()` for custom error handling.
+- **Log prefixes** — all internal logs now use `[nix-js]` (core) and `[nix-js-kit]` (kit), not `[Nix]`.
+
+### New features (non-breaking, opt-in)
+
+- **`lazyIsland()`** — deferred island component loading without probing.
+- **Island HMR** — Vite plugin hot-swaps island modules without full page reload.
+- **`getImage()` / `ImageService`** — programmatic single-image and runtime image transforms.
+- **Image hardening** — SHA-256 transform keys, path containment, atomic writes, single-flight, `strict` mode.
+- **`AdapterCapabilities`** — explicit host capability declarations with build-time validation.
+- **Static Range/If-Range/HEAD** — full HTTP semantics for static file serving.
+- **Recursive content collections** — `getCollection()` scans nested directories with derived slugs.
+- **CLI commands** — `check`, `routes`, `doctor`.
+- **`RequestContext`** — unified per-request context with `params`, `locals`, `cookies`, `signal`, `requestId`.
+
+### Migration steps
+
+1. Update both packages:
+
+```bash
+bun add @deijose/nix-js@^3 @deijose/nix-js-kit@^2
+```
+
+2. Run `nix-js-kit doctor` to diagnose version mismatches and config issues.
+3. Run `nix-js-kit check` to typecheck and validate routes.
+4. Run `nix-js-kit build` to verify the build.
+5. If you have custom servers, migrate to `createWebHandler()` from `@deijose/nix-js-kit/runtime`.
+
+:::note
+The v1 → v2 migration guide with detailed API mapping is in `docs/nix-js-kit/nix-js-kit-v1-v2-migration-guide.md` (draft). The automated migration report tool is planned for a later v2.x release.
+:::
+
 ## Upgrading to v1.3.0
 
 v1.3.0 is a minor release with new features and no breaking changes. However, if you were using internal identifiers from v1.2.6 or earlier, some were renamed for consistency.

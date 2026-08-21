@@ -1,13 +1,13 @@
 ---
 title: Security
-description: CSRF protection and action error handling
+description: CSRF protection, error sanitization, static serving, security headers, and body limits
 section: Server
 order: 2
 ---
 
 # Security
 
-Nix.js Kit includes built-in CSRF protection for server actions and a secure error-handling mechanism that avoids leaking sensitive data in URLs.
+Nix.js Kit includes built-in CSRF protection for server actions, production error sanitization, hardened static serving, default security headers, and body size limits.
 
 ## CSRF protection
 
@@ -161,3 +161,91 @@ Returns a `Set-Cookie` header string for clearing the error cookie.
 ### `ACTION_ERROR_COOKIE`
 
 The cookie name constant: `"__nix_js_action_error"`.
+
+## Production error sanitization
+
+Since v2.0.2, production error responses no longer expose `String(err)` — which could leak file paths, stack traces, or secret values. The unified Web handler, action server, and all adapters route errors through `publicErrorResponse()`:
+
+- **Development** (`dev`/`preview`): full error with stack trace for debugging.
+- **Production** (`start`/adapters): a generic `500` page with no internal details. The real error is logged server-side with the request ID.
+
+```ts
+import { toPublicErrorInfo, publicErrorResponse } from "@deijose/nix-js-kit";
+
+// In a custom handler
+const info = toPublicErrorInfo(err, { dev: false });
+const response = publicErrorResponse(info, { status: 500 });
+```
+
+:::warning
+Never use `String(err)` or `err.stack` in a response body. Always route through `publicErrorResponse()` so the dev/prod distinction is handled automatically.
+:::
+
+## Static serving hardening
+
+`serveStaticFile()` supports full HTTP semantics for static assets:
+
+- **ETag / `If-None-Match`** — `304 Not Modified` when the hash matches.
+- **`Last-Modified` / `If-Modified-Since`** — `304` for unchanged files.
+- **`Range` / `If-Range`** — partial content with `206 Partial Content` and `Content-Range`. Single range only; unsatisfiable ranges return `416 Range Not Satisfiable`.
+- **`HEAD`** — uniform HEAD responses (headers only, no body) for all static files.
+- **`Accept-Ranges: bytes`** — advertised on every static response.
+- **Immutable caching** — hashed assets (`/_nix-js/...`) get `Cache-Control: public, max-age=31536000, immutable`.
+
+:::note
+Range support means audio/video streaming and large file downloads work correctly without any custom configuration.
+:::
+
+## Default security headers
+
+Since v1.3.0, the kit applies a baseline set of security headers to every response. Since v2.0.2, these are applied uniformly through the unified Web handler:
+
+| Header | Value | Purpose |
+| --- | --- | --- |
+| `X-Content-Type-Options` | `nosniff` | Prevent MIME sniffing |
+| `Referrer-Policy` | `no-referrer-when-downgrade` | Limit referrer leakage |
+| `X-Frame-Options` | `SAMEORIGIN` | Clickjacking protection |
+| `Permissions-Policy` | (restrictive defaults) | Limit browser API access |
+| `Strict-Transport-Security` | `max-age=31536000; includeSubDomains` | Force HTTPS (when TLS is detected) |
+| `Content-Security-Policy` | (with nonce support) | Prevent XSS/injection |
+
+Configure or disable headers via `securityHeaders` in your config or handler options:
+
+```ts
+import { nixJsKit } from "@deijose/nix-js-kit/vite";
+
+export default defineConfig({
+  plugins: [
+    nixJsKit({
+      securityHeaders: {
+        contentSecurityPolicy: { "script-src": ["'self'", "'nonce-{nonce}'"] },
+        frameOptions: "DENY",
+      },
+    }),
+  ],
+});
+```
+
+To disable security headers entirely:
+
+```ts
+nixJsKit({ securityHeaders: false })
+```
+
+## Body size limits
+
+Request bodies are size-limited to prevent denial-of-service attacks. The default limit depends on the host's capabilities:
+
+| Host | Default `maxBodySize` |
+| --- | --- |
+| Node / Bun (long-lived) | Unlimited (OS-level limits apply) |
+| Serverless (Vercel/Netlify) | 1 MB |
+| Edge | 1 MB |
+
+When a body exceeds the limit, the server responds with `413 Payload Too Large` before reading the full body. Override via capabilities:
+
+```ts
+import { createCapabilities } from "@deijose/nix-js-kit/runtime";
+
+const capabilities = createCapabilities({ maxBodySize: 5_000_000 }); // 5 MB
+```

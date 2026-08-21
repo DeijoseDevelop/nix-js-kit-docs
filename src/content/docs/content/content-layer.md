@@ -75,6 +75,34 @@ const posts = await getCollection("blog");
 // Returns all entries, sorted by date descending (if date exists)
 ```
 
+### Recursive (nested) collections
+
+Since v2.0.4, `getCollection()` scans nested directories and derives nested slugs automatically. You no longer need a manual content scanner for subdirectory structures:
+
+```text
+src/content/
+└── docs/
+    ├── getting-started/
+    │   ├── introduction.md      → slug: "getting-started/introduction"
+    │   └── quick-start.md       → slug: "getting-started/quick-start"
+    ├── core-concepts/
+    │   ├── routing.md           → slug: "core-concepts/routing"
+    │   └── data-loading.md      → slug: "core-concepts/data-loading"
+    └── reference/
+        └── api-reference.md     → slug: "reference/api-reference"
+```
+
+```ts
+const entries = await getCollection("docs");
+// entries[0].slug → "getting-started/introduction"
+// entries[1].slug → "getting-started/quick-start"
+// ...
+```
+
+:::tip
+Nested slugs map directly to URL paths, making it trivial to build docs sites or hierarchical content with `[...slug]` catch-all routes.
+:::
+
 ### `getEntry(collection, slug)`
 
 ```ts

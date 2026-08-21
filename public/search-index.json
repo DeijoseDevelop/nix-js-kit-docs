@@ -12,6 +12,10 @@
       "Build-time optimization with `sharp`",
       "Build integration",
       "Programmatic pipeline",
+      "`getImage()` — single image transform",
+      "`ImageService` — programmatic image API",
+      "Manifest API",
+      "Build hardening (v2.0.2+)",
       "Subpath export"
     ],
     "excerpt": "The  helper generates responsive  tags with , , lazy loading, and CLS-preventing dimensions. Generates: Generates: When : -  (instead of ) -  is added | Option | Type | Default | Description | | --- |"
@@ -62,6 +66,9 @@
       "Manual entry",
       "Auto island scan",
       "Island disposal",
+      "`lazyIsland()` — deferred component loading",
+      "HMR (Hot Module Replacement)",
+      "Null and empty islands",
       "Lower-level APIs",
       "Subpath export"
     ],
@@ -131,6 +138,7 @@
       "Create content",
       "Query collections",
       "`getCollection(name)`",
+      "Recursive (nested) collections",
       "`getEntry(collection, slug)`",
       "`getEntries(collection, slugs)`",
       "Render Markdown",
@@ -142,7 +150,7 @@
       "HMR",
       "Subpath export"
     ],
-    "excerpt": "The content layer brings typed Markdown collections to Nix.js Kit — similar to Astro Content Collections. Install the optional peer dependencies: Create : Add Markdown files to : Inject trusted HTML w"
+    "excerpt": "The content layer brings typed Markdown collections to Nix.js Kit — similar to Astro Content Collections. Install the optional peer dependencies: Create : Add Markdown files to : Since v2.0.4,  scans "
   },
   {
     "title": "API Routes",
@@ -191,6 +199,7 @@
       "Basic loader",
       "Load context",
       "`LoadContext`",
+      "`RequestContext` (v2)",
       "Dynamic routes with `generateStaticParams`",
       "ISR with `revalidate`",
       "Layout data loaders",
@@ -254,6 +263,7 @@
       "Dynamic routes",
       "`[slug]` — single dynamic segment",
       "`[...slug]` — catch-all route",
+      "`[[...slug]]` — optional catch-all route (v2)",
       "Route groups",
       "`generateStaticParams`",
       "Matching helpers",
@@ -261,7 +271,7 @@
       "`matchApiRoute(pathname, routes)`",
       "File-to-URL mapping"
     ],
-    "excerpt": "Nix.js Kit uses file-based routing. Files in  are mapped to URLs automatically. | File | URL | | --- | --- | |  |  | |  |  | |  |  | Matches one or more segments: , , etc. Folders wrapped in parenthes"
+    "excerpt": "Nix.js Kit uses file-based routing. Files in  are mapped to URLs automatically. | File | URL | | --- | --- | |  |  | |  |  | |  |  | Matches one or more segments: , , etc. Since v2.0.0, you can use an"
   },
   {
     "title": "Server Actions",
@@ -296,7 +306,7 @@
       "Programmatic streaming",
       "When to use streaming"
     ],
-    "excerpt": "Streaming lets the server send the page shell immediately and deliver the real content right after — without waiting for slow data sources (databases, remote APIs, LLMs) to finish before the first byt"
+    "excerpt": "Streaming is experimental. The shell + client-fetch flow works, but true out-of-order server-side flushing (writing chunks as each async boundary resolves) is still being verified. Use it for the shel"
   },
   {
     "title": "Adapters",
@@ -309,9 +319,27 @@
       "Bun",
       "Node",
       "Custom adapter",
-      "What adapters do"
+      "What adapters do",
+      "Unified Web handler"
     ],
     "excerpt": "Nix.js Kit includes built-in adapters for the most common deployment platforms. Each adapter generates a self-contained server entry that serves static files and renders pages on demand. Produces a  d"
+  },
+  {
+    "title": "Adapter Capabilities",
+    "description": "Explicit host capability contracts — streaming, filesystem, image runtime, background work, and body size limits",
+    "section": "Deploy",
+    "slug": "deploy/capabilities",
+    "headings": [
+      "`AdapterCapabilities`",
+      "Default capability presets",
+      "`validateCapabilities()`",
+      "Validation rules",
+      "Helper functions",
+      "How adapters use capabilities",
+      "Custom adapter capabilities",
+      "Subpath export"
+    ],
+    "excerpt": "Since v2.0.2, every deployment host declares an explicit  object. The framework uses it to decide which features are safe to enable: streaming, filesystem access, runtime image transforms, background "
   },
   {
     "title": "Installation",
@@ -464,11 +492,13 @@
       "Images",
       "Middleware",
       "Adapters",
+      "Errors",
       "Client router",
       "Subpath exports",
       "`@deijose/nix-js-kit/action`",
       "`@deijose/nix-js-kit/island`",
       "`@deijose/nix-js-kit/router`",
+      "`@deijose/nix-js-kit/runtime`",
       "`@deijose/nix-js-kit/content`",
       "`@deijose/nix-js-kit/image`",
       "`@deijose/nix-js-kit/vite`",
@@ -513,14 +543,21 @@
       "Headers set in middleware never reach the page",
       "ISR cache is never served",
       "Client / hydration",
+      "\"Hydration marker mismatch: Template has no hydration descriptor\"",
+      "\"e._render is not a function\" (island hydration)",
+      "Island returns null and breaks other islands",
       "Island never hydrates",
       "Clicking a link does a full page reload",
       "Lots of `__nix-js/render` 404s in the console",
+      "Island chunks 404 under `/assets/...`",
+      "`[object Object]` in rendered HTML",
       "Styles flash on first navigation",
       "Deployments",
       "Vercel: \"Build error: `_setSSR` not found\"",
       "Adapter says \"Run nix-js-kit build first\"",
       "Static host returns 404 for deep links",
+      "`nix-js-kit adapter` says \"ISR requires a persistent filesystem\"",
+      "`nix-js-kit adapter` says \"image transforms require imageRuntime=true\"",
       "Forms and actions",
       "Action returns 403 \"Cross-origin request blocked\"",
       "Form error values never appear in the page",
@@ -535,6 +572,10 @@
     "section": "Reference",
     "slug": "reference/upgrade-guide",
     "headings": [
+      "Upgrading to v2.0.x",
+      "Breaking changes",
+      "New features (non-breaking, opt-in)",
+      "Migration steps",
       "Upgrading to v1.3.0",
       "Naming changes (v1.2.7 → v1.3.0)",
       "New optional peer dependencies",
@@ -543,7 +584,7 @@
       "Upgrading from v1.2.x to v1.2.7",
       "General upgrade steps"
     ],
-    "excerpt": "v1.3.0 is a minor release with new features and no breaking changes. However, if you were using internal identifiers from v1.2.6 or earlier, some were renamed for consistency. If you referenced intern"
+    "excerpt": "v2.0 is a major release that adds DOM-free SSR, a unified Web handler, adapter capabilities, image pipeline hardening, island HMR, recursive content collections, and production error sanitization. It "
   },
   {
     "title": "Environment Variables",
@@ -563,6 +604,27 @@
       "Availability"
     ],
     "excerpt": "Environment variables work differently depending on where the code runs. The rule of thumb: code that runs on the server reads  freely; code that ships to the browser must be inlined at build time or "
+  },
+  {
+    "title": "Unified Web Handler",
+    "description": "createWebHandler and RequestContext — the single entry point shared by dev, preview, start, and all adapters",
+    "section": "Server",
+    "slug": "server/handler",
+    "headings": [
+      "`createWebHandler()`",
+      "Responsibilities (in order)",
+      "`WebHandlerOptions`",
+      "`RequestContext`",
+      "Fields",
+      "`CookieJar` (read)",
+      "`ResponseCookieJar` (write)",
+      "`CookieOptions`",
+      "`applyToResponse()`",
+      "Using the handler in a custom server",
+      "Why a unified handler?",
+      "Subpath export"
+    ],
+    "excerpt": "Since v2.0.2, every runtime path — , , , and all four adapters (Node, Bun, Vercel, Netlify) — funnels through a single function: . This eliminates duplicated request-handling logic and guarantees iden"
   },
   {
     "title": "Middleware",
@@ -590,7 +652,7 @@
   },
   {
     "title": "Security",
-    "description": "CSRF protection and action error handling",
+    "description": "CSRF protection, error sanitization, static serving, security headers, and body limits",
     "section": "Server",
     "slug": "server/security",
     "headings": [
@@ -609,9 +671,13 @@
       "`decodeActionErrorCookie(value)`",
       "`setActionErrorCookieHeader(data)`",
       "`clearActionErrorCookieHeader()`",
-      "`ACTION_ERROR_COOKIE`"
+      "`ACTION_ERROR_COOKIE`",
+      "Production error sanitization",
+      "Static serving hardening",
+      "Default security headers",
+      "Body size limits"
     ],
-    "excerpt": "Nix.js Kit includes built-in CSRF protection for server actions and a secure error-handling mechanism that avoids leaking sensitive data in URLs. Server actions accept POST requests to . Without origi"
+    "excerpt": "Nix.js Kit includes built-in CSRF protection for server actions, production error sanitization, hardened static serving, default security headers, and body size limits. Server actions accept POST requ"
   },
   {
     "title": "SSR API",
@@ -673,6 +739,9 @@
       "`nix-js-kit preview`",
       "`nix-js-kit start`",
       "`nix-js-kit adapter <name>`",
+      "`nix-js-kit check`",
+      "`nix-js-kit routes`",
+      "`nix-js-kit doctor`",
       "Programmatic API",
       "Bun runtime"
     ],

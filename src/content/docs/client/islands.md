@@ -106,6 +106,50 @@ The registry name is the path relative to `islandsDir`:
 
 Before the SPA router swaps `#app.innerHTML`, old island effects are disposed via the `__nix_js_island_dispose` marker. This prevents leaked effects and stale DOM writes after navigation.
 
+## `lazyIsland()` — deferred component loading
+
+Since v2.0.2, the generated registry uses a discriminated `{ load }` lazy form so island modules are imported on demand without probing the component function (which could cause side effects or duplicate signal creation):
+
+```ts
+import { lazyIsland } from "@deijose/nix-js-kit/island";
+
+const Counter = lazyIsland(() => import("./Counter").then((m) => m.default));
+
+hydrateIslands({ Counter });
+```
+
+The `load` function is only called when the island actually hydrates, not at registry construction time. This keeps the initial bundle small and avoids executing component code for islands that never enter the viewport (e.g. `visible` directive).
+
+:::note
+The auto-generated entry from `scanIslands` already uses `lazyIsland()` internally. You only need it manually if you write your own entry file.
+:::
+
+## HMR (Hot Module Replacement)
+
+Since v2.0.3, the Vite plugin registers `import.meta.hot.accept` on the generated client entry. When you edit an island module:
+
+1. The old island instances are **disposed** (effects cleaned up, DOM detached).
+2. The updated module is imported.
+3. Islands **re-hydrate from the updated code** without a full page reload.
+
+This means you can tweak an island's template, styles, or signal logic and see the change instantly — navigation count stays unchanged, no full refresh.
+
+:::tip
+HMR works with all three directives (`load`, `idle`, `visible`). Islands that haven't hydrated yet will pick up the new code on their next hydration trigger.
+:::
+
+## Null and empty islands
+
+If an island component returns `null`, `false`, or `undefined`, hydration treats it as an empty island and **continues hydrating siblings**. The error is reported per-island without crashing global hydration:
+
+```ts
+// This won't break other islands on the page
+export default function ConditionalWidget({ show }: { show: boolean }) {
+  if (!show) return null;
+  return html`<div>Visible!</div>`;
+}
+```
+
 ## Lower-level APIs
 
 ```ts

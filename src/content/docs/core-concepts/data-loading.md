@@ -66,6 +66,39 @@ interface LoadContext {
 The `request` object is available in SSR (`nix-js-kit start`), streaming, and the Vite dev server. In pure SSG (`nix-js-kit build`), it's `undefined` because there's no HTTP request.
 :::
 
+### `RequestContext` (v2)
+
+Since v2.0.0, the unified Web handler exposes a richer `RequestContext` that carries per-request state across middleware, loaders, and actions. It's available from `@deijose/nix-js-kit/runtime`:
+
+```ts
+import type { RequestContext } from "@deijose/nix-js-kit/runtime";
+
+// Fields:
+//   params      — RouteParams (dynamic segment values)
+//   locals      — Record<string, unknown> (per-request mutable state, isolated per request)
+//   cookies     — CookieJar (read request cookies: get, getAll, has)
+//   signal      — AbortSignal (aborts when the client disconnects)
+//   requestId   — string (auto-generated UUID for logging/tracing)
+//   platform    — { runtime: "node" | "bun" | "edge", host: string }
+//   route       — PageRoute (the matched route)
+//   response    — ResponseState (mutable headers + Set-Cookie accumulation)
+//   applyToResponse() — merges accumulated headers/cookies/status into a Response
+```
+
+Middleware and the unified handler use `RequestContext` internally. Loaders receive a `LoadContext` view (backwards compatible); if you need the full context (e.g. `signal` for abortable fetches), access it via the runtime entry:
+
+```ts
+import { streamBoundary } from "@deijose/nix-js-kit";
+
+export const load = async ({ params, request }) => {
+  // Use request.signal for abortable data fetching
+  const res = await fetch("https://api.example.com/posts", {
+    signal: request?.signal ?? undefined,
+  });
+  return { posts: await res.json() };
+};
+```
+
 ## Dynamic routes with `generateStaticParams`
 
 ```ts

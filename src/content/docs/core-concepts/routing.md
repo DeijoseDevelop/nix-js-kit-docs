@@ -61,6 +61,24 @@ export const generateStaticParams = async () => [
 ];
 ```
 
+### `[[...slug]]` — optional catch-all route (v2)
+
+Since v2.0.0, you can use an optional catch-all that matches the base path **and** any depth:
+
+```text
+src/app/docs/[[...slug]]/page.ts  →  /docs and /docs/:slug*
+```
+
+Matches `/docs` (with no slug), `/docs/intro`, `/docs/core/routing`, etc. The param is `undefined` when the base path is matched, and a string array otherwise:
+
+```ts
+export const load = async ({ params }) => {
+  const segments = params.slug; // undefined | string[]
+  if (!segments) return { page: "index" };
+  return { page: segments.join("/") };
+};
+```
+
 ## Route groups
 
 Folders wrapped in parentheses are ignored in the URL:

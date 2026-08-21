@@ -72,6 +72,7 @@ matchApiRoute(pathname: string, routes: ApiRoute[]): ApiMatchResult | null
 ### Actions
 
 ```ts
+defineAction(options: DefineActionOptions): DefinedAction
 handleActionRequest(request: Request, resolver: ActionResolver, options?: ActionSecurityOptions): Promise<Response>
 scanActions(appDir: string): Promise<ActionRegistry>
 verifyOrigin(request: Request, options?: OriginCheckOptions): { denied: boolean; reason?: string }
@@ -119,6 +120,13 @@ bunAdapter.build(options: AdapterOptions): Promise<void>
 nodeAdapter.build(options: AdapterOptions): Promise<void>
 ```
 
+### Errors
+
+```ts
+toPublicErrorInfo(err: unknown, opts?: { dev?: boolean }): PublicErrorInfo
+publicErrorResponse(info: PublicErrorInfo, opts?: { status?: number }): Response
+```
+
 ### Client router
 
 ```ts
@@ -144,6 +152,8 @@ nixJsAction(name: string, options?: { page?: string }): {
 
 ```ts
 hydrateIslands(registry: IslandRegistry): void
+cleanupHydratedIslands(): void
+lazyIsland<TProps>(load: () => Promise<IslandComponent<TProps>>): IslandLoader<TProps>
 ```
 
 ### `@deijose/nix-js-kit/router`
@@ -151,6 +161,38 @@ hydrateIslands(registry: IslandRegistry): void
 ```ts
 startClientRouter(): void
 navigateTo(pathname: string, search?: string, push?: boolean): void
+```
+
+### `@deijose/nix-js-kit/runtime`
+
+```ts
+createWebHandler(routes: WebHandlerRouteTable, actions: WebHandlerActionRegistry, options: WebHandlerOptions): (request: Request) => Promise<Response>
+RequestContext: { params, locals, cookies, signal, requestId, platform, route, response, applyToResponse() }
+serveStaticFile(request: Request, filePath: string, options?: StaticFileOptions): Response
+resolveStaticFile(pathname: string, root: string): string | null
+incomingMessageToRequest(req: IncomingMessage): Request
+guessContentType(path: string): string
+htmlResponse(html: string, init?: ResponseInit): Response
+jsonResponse(data: unknown, init?: ResponseInit): Response
+textResponse(text: string, init?: ResponseInit): Response
+notFound(): Response
+methodNotAllowed(methods: string[]): Response
+serverError(message?: string): Response
+
+// Capabilities
+DEFAULT_CAPABILITIES: AdapterCapabilities
+SERVERLESS_CAPABILITIES: AdapterCapabilities
+EDGE_CAPABILITIES: AdapterCapabilities
+createCapabilities(options?: CapabilityOptions): AdapterCapabilities
+supportsStreaming(capabilities: AdapterCapabilities): boolean
+supportsPersistentStorage(capabilities: AdapterCapabilities): boolean
+supportsWritableFilesystem(capabilities: AdapterCapabilities): boolean
+validateCapabilities(capabilities: AdapterCapabilities, features?: { isr?, images?, streaming? }): CapabilityDiagnostics
+
+// Security headers
+buildSecurityHeaders(config?: SecurityHeadersConfig): Record<string, string>
+applySecurityHeaders(response: Response, config?: SecurityHeadersConfig): Response
+DEFAULT_SECURITY_HEADERS: Record<string, string>
 ```
 
 ### `@deijose/nix-js-kit/content`
@@ -177,8 +219,17 @@ getZod(): unknown
 ```ts
 image(options: ImageOptions): NixTemplate
 processImages(options: PipelineOptions): Promise<ProcessedImage[]>
+processImageBatch(options: ProcessOptions): Promise<ProcessResult>
 consumeImageRegistry(): ImageRegistry
 isSharpAvailable(): boolean
+getImage(options: GetImageOptions): Promise<GetImageResult>
+createImageService(options: ImageServiceOptions): ImageService
+readManifest(path: string): Promise<ImageManifest>
+writeManifest(manifest: ImageManifest, path: string): Promise<void>
+getManifestEntry(manifest: ImageManifest, src: string): ImageEntry | undefined
+buildSrcset(entry: ImageEntry): string
+buildPictureMarkup(entry: ImageEntry, options?: PictureMarkupOptions): string
+validateManifestUrls(html: string, manifest: ImageManifest): string[]
 ```
 
 ### `@deijose/nix-js-kit/vite`

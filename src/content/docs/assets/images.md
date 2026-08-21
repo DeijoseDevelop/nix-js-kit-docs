@@ -151,6 +151,99 @@ const processed = await processImages({
 });
 ```
 
+## `getImage()` — single image transform
+
+Since v2.0.2, you can process a single image programmatically without going through the build registry:
+
+```ts
+import { getImage } from "@deijose/nix-js-kit/image";
+
+const result = await getImage({
+  src: "/images/hero.jpg",
+  publicDir: "./public",
+  outDir: "./dist/images",
+  widths: [640, 1280, 1920],
+  formats: ["webp", "avif"],
+});
+
+// result.variants: [{ url, width, height, format, size }, ...]
+// result.entry: { src, width, height, hash, variants }
+```
+
+## `ImageService` — programmatic image API
+
+`createImageService()` gives you a stateful image service with declared capabilities, useful for runtime transforms on serverless/edge hosts:
+
+```ts
+import { createImageService } from "@deijose/nix-js-kit/image";
+
+const service = createImageService({
+  publicDir: "./public",
+  outDir: "./dist/images",
+  capabilities: { imageRuntime: true, filesystem: "persistent" },
+});
+
+const result = await service.transform({
+  src: "/images/hero.jpg",
+  widths: [640, 1280],
+  formats: ["webp"],
+});
+```
+
+## Manifest API
+
+The image manifest maps source URLs to their generated variants. Use it to validate markup URLs or inspect what was built:
+
+```ts
+import {
+  readManifest,
+  writeManifest,
+  getManifestEntry,
+  buildSrcset,
+  buildPictureMarkup,
+  validateManifestUrls,
+  processImageBatch,
+} from "@deijose/nix-js-kit/image";
+
+// Read a previously written manifest
+const manifest = await readManifest("./dist/images/manifest.json");
+
+// Look up a specific image
+const entry = getManifestEntry(manifest, "/images/hero.jpg");
+
+// Build a srcset string from an entry
+const srcset = buildSrcset(entry);
+
+// Validate that every URL in your HTML exists in the manifest
+validateManifestUrls(html, manifest);
+```
+
+## Build hardening (v2.0.2+)
+
+The image pipeline was hardened with several guarantees:
+
+- **SHA-256 transform keys** — variant filenames incorporate a hash of: content digest + normalized transform options + encoder version + naming version. The same request always produces the same URL; different options produce different URLs.
+- **Path containment** — source and output paths are validated against `publicDir`/`outDir`. No traversal (`../`), NUL bytes, symlink escape, or Unicode separator tricks.
+- **Atomic writes** — variants are written to a temp file then renamed, so partial writes never appear in the output.
+- **Single-flight** — concurrent requests for the same transform key share one processing job instead of duplicating work.
+- **Bounded concurrency** — a configurable pool (default 4) limits simultaneous sharp transforms.
+- **`strict` mode** — when enabled, missing sources or failed transforms **fail the build** instead of silently emitting partial output.
+
+```ts
+import { processImages } from "@deijose/nix-js-kit";
+
+await processImages({
+  registry,
+  outDir: "./dist/images",
+  strict: true,        // fail on any error
+  concurrency: 8,      // parallel sharp transforms
+});
+```
+
+:::warning
+`strict: true` is recommended for production builds. Without it, a missing source image produces a broken `srcset` entry that browsers silently skip.
+:::
+
 ## Subpath export
 
 ```ts

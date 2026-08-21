@@ -101,7 +101,7 @@ if (result) {
 
 ## `renderToString` — render a template directly
 
-Renders an arbitrary Nix template to HTML in Node (used internally by `renderPage`):
+Renders an arbitrary Nix template to HTML in Node **without any DOM globals** (used internally by `renderPage`):
 
 ```ts
 import { html } from "@deijose/nix-js";
@@ -110,7 +110,7 @@ import { renderToString } from "@deijose/nix-js-kit";
 const htmlOut = renderToString(() => html`<h1>Hello</h1>`);
 ```
 
-`renderToString` must receive a **factory function** (not a template literal) so the template evaluates inside the happy-dom environment.
+`renderToString` must receive a **factory function** (not a template literal) so the template evaluates inside the SSR scope. Since v2.0.0, SSR is DOM-free — the core `@deijose/nix-js/server` renderer produces HTML directly from template descriptors without mounting to a virtual DOM. Hydration markers (`<!--nix-N-->`, `data-nix-e-*`) are emitted by default so the client can adopt the existing DOM.
 
 ## Custom server example
 
@@ -153,4 +153,5 @@ For production, prefer [`createSsrServer`](/docs/server/ssr-server) or the deplo
 
 - `renderPage`, `renderPageBody`, `renderStreamingPage`, `renderErrorPage`, `renderToString` — `@deijose/nix-js-kit` (main entry)
 - `matchRoute`, `matchApiRoute` — main entry
+- `createWebHandler`, `RequestContext` — `@deijose/nix-js-kit/runtime` (see [Unified Web Handler](/docs/server/handler))
 - The `/__nix-js/render` endpoint and all adapters use these same functions, so behavior is identical everywhere

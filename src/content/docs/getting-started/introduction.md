@@ -37,22 +37,25 @@ The kit itself has **no hard runtime dependencies** on the client. Optional feat
 ## Features
 
 - **SSG** — Static site generation from `src/app/` file conventions
-- **SSR** — On-demand server-side rendering with `nix-js-kit start`
+- **SSR** — On-demand server-side rendering with `nix-js-kit start` (DOM-free since v2)
 - **ISR** — Incremental static regeneration with disk cache and TTL
-- **File-based routing** — `page.ts`, dynamic routes `[slug]`, catch-all `[...slug]`, route groups `(group)`
+- **File-based routing** — `page.ts`, dynamic routes `[slug]`, catch-all `[...slug]`, optional catch-all `[[...slug]]`, route groups `(group)`
 - **Layouts** — Nested `layout.ts` files wrap pages automatically
 - **Data loading** — `page.data.ts` loaders with `PageProps<typeof load>` typing
 - **Server actions** — `page.action.ts` with CSRF protection and progressive enhancement
 - **API routes** — `route.ts` files for HTTP endpoints
-- **Islands** — `island()` helper with `load`, `idle`, `visible` directives
+- **Islands** — `island()` helper with `load`, `idle`, `visible` directives; `lazyIsland()` for deferred loading; HMR in dev
 - **SPA router** — Client-side navigation with prefetch, View Transitions, and scroll restoration
 - **Metadata API** — `generateMetadata()` with OpenGraph, Twitter cards, and head merge
-- **Content layer** — Typed Markdown collections with YAML frontmatter
-- **Image optimization** — Responsive `image()` helper with build-time WebP/AVIF
+- **Content layer** — Typed Markdown collections with YAML frontmatter; recursive nested directories
+- **Image optimization** — Responsive `image()` helper with build-time WebP/AVIF; `getImage()` and `ImageService` for programmatic transforms; SHA-256 hashed variants with path containment and atomic writes
 - **Middleware** — `src/middleware.ts` with path matchers
 - **Error pages** — Custom `404.page.ts` and `500.page.ts`
-- **Adapters** — Vercel, Netlify, Bun, and Node deployment targets
-- **Vite plugin** — `nixJsKit()` for a Vite-native dev server
+- **Adapters** — Vercel, Netlify, Bun, and Node deployment targets with explicit capability contracts
+- **Vite plugin** — `nixJsKit()` for a Vite-native dev server with island HMR
+- **Unified Web handler** — `createWebHandler()` shared by dev, preview, start, and all adapters for identical behavior everywhere
+- **CLI tools** — `check`, `routes`, `doctor` for project diagnostics
+- **Security** — CSRF protection, production error sanitization, default security headers, body size limits, hardened static serving (Range/HEAD/ETag)
 
 ## Project structure
 

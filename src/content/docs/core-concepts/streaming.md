@@ -7,6 +7,10 @@ order: 9
 
 # Streaming
 
+:::warning
+**Streaming is experimental.** The shell + client-fetch flow works, but true out-of-order server-side flushing (writing chunks as each async boundary resolves) is still being verified. Use it for the shell pattern described below, but do not rely on it for critical UX paths until it stabilizes.
+:::
+
 Streaming lets the server send the page shell immediately and deliver the real content right after — without waiting for slow data sources (databases, remote APIs, LLMs) to finish before the first byte.
 
 ## The pattern
