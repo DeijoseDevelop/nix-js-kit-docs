@@ -5,27 +5,13 @@
 import { html } from "@deijose/nix-js";
 import { raw } from "@deijose/nix-js-kit/content";
 import type { LayoutProps } from "@deijose/nix-js-kit";
+import { island } from "@deijose/nix-js-kit";
 import { getDocsNav, type NavSection } from "./lib/docs-nav";
+import MobileDrawer from "../islands/MobileDrawer.ts";
+import Search from "../islands/Search.ts";
+import ThemeToggle from "../islands/ThemeToggle.ts";
+import CodeCopy from "../islands/CodeCopy.ts";
 import { renderMarkdown, type TocItem } from "./lib/markdown";
-
-// Server-safe island marker — emits the same HTML markers as island() but
-// without calling document.createElement (which doesn't exist in SSG/Node).
-// Supports optional fallback content rendered server-side inside the marker.
-function islandMarker(
-    name: string,
-    props: unknown = {},
-    directive = "load",
-    fallback = "",
-) {
-    const escaped = name
-        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-    const serialized = JSON.stringify(props ?? null)
-        .replace(/</g, "\\u003c").replace(/'/g, "\\u0027");
-    return raw(
-        `<div data-nix-js-island="${escaped}" data-directive="${directive}" data-props='${serialized}'>${fallback}</div>`,
-    );
-}
 
 export interface DocsLayoutData {
     sections: NavSection[];
@@ -55,12 +41,7 @@ export default function DocsLayout({
             <!-- Topbar -->
             <header class="topbar">
                 <div class="topbar-left">
-                    ${islandMarker(
-        "MobileDrawer",
-        {},
-        "load",
-        '<button class="topbar-icon-btn menu-btn" aria-label="Toggle menu" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>',
-    )}
+                    ${island("MobileDrawer", MobileDrawer, {}, "load")}
                     <a href="/" class="topbar-brand">
                     <picture>
                         <source srcset="/nix-js-logo-112.webp" type="image/webp" />
@@ -74,8 +55,8 @@ export default function DocsLayout({
                 </div>
 
                 <div class="topbar-right">
-                    ${islandMarker("Search", {}, "load", '<button class="topbar-icon-btn" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>')}
-                    ${islandMarker("ThemeToggle", {}, "load", '<button class="theme-toggle" aria-label="Toggle theme"><span class="moon">🌙</span><span class="sun">☀</span></button>')}
+                    ${island("Search", Search, {}, "load")}
+                    ${island("ThemeToggle", ThemeToggle, {}, "load")}
                     <a
                         class="topbar-link"
                         href="https://github.com/DeijoseDevelop/nix-js-kit"
@@ -182,7 +163,7 @@ export default function DocsLayout({
             </div>
 
             <!-- Code copy event delegation -->
-            ${islandMarker("CodeCopy", {}, "load")}
+            ${island("CodeCopy", CodeCopy, {}, "load")}
 
             <!-- Theme init script (no-flash) -->
             <script>

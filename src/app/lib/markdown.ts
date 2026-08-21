@@ -93,6 +93,7 @@ function transformCallouts(source: string): string {
   const flush = () => {
     if (!type) return;
     const c = calloutTypes[type];
+    if (!c) return;
     const bodyHtml = marked.parse(body.join("\n"), { async: false }) as string;
     out.push(`<div class="callout ${c.cls}"><div class="callout-title">${c.icon} ${title.trim() || c.label}</div>${bodyHtml}</div>`);
     type = null;
@@ -104,7 +105,7 @@ function transformCallouts(source: string): string {
     const open = line.match(/^:::(note|tip|warning|caution|danger)(?:\s+(.*))?$/);
     if (open) {
       flush();
-      type = open[1];
+      type = open[1] ?? null;
       title = open[2] ?? "";
       continue;
     }

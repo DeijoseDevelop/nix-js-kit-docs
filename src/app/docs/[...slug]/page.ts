@@ -9,7 +9,8 @@ import type {
   PageMetadata,
   GenerateStaticParams,
 } from "@deijose/nix-js-kit";
-import { getDocsCollection } from "../../lib/content-scan";
+import { getCollection } from "@deijose/nix-js-kit/content";
+import type { DocData } from "../../lib/docs-nav";
 import type { DocsLayoutData } from "../../layout";
 import type { load } from "./page.data";
 
@@ -70,7 +71,7 @@ export const generateMetadata = (ctx: {
 };
 
 export const generateStaticParams: GenerateStaticParams = async () => {
-  const entries = await getDocsCollection();
+  const entries = await getCollection<DocData>("docs");
 
   return entries
     .filter((e) => !e.data.draft)

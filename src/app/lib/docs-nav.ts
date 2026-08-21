@@ -2,9 +2,18 @@
 // Docs navigation — builds the sidebar nav tree from content entries
 // ============================================================================
 
-import { getDocsCollection, getDocEntry, type DocEntry } from "./content-scan";
+import { getCollection, getEntry, type ContentEntry } from "@deijose/nix-js-kit/content";
 
-export type { DocEntry } from "./content-scan";
+/** Frontmatter data of a docs entry. */
+export interface DocData {
+  title: string;
+  description: string;
+  section: string;
+  order: number;
+  draft?: boolean;
+}
+
+export type DocEntry = ContentEntry<DocData>;
 
 export interface DocMeta {
   title: string;
@@ -35,7 +44,7 @@ const SECTION_ORDER = [
 ];
 
 export async function getDocsNav(): Promise<NavSection[]> {
-  const entries = await getDocsCollection();
+  const entries = await getCollection<DocData>("docs");
   const docs = entries
     .filter((e) => !e.data.draft)
     .map((e) => ({
@@ -91,5 +100,5 @@ export async function getPrevNext(
 export async function getDocBySlug(
   slug: string,
 ): Promise<DocEntry | undefined> {
-  return await getDocEntry(slug);
+  return await getEntry<DocData>("docs", slug);
 }

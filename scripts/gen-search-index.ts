@@ -4,7 +4,7 @@
 
 import { writeFile, mkdir } from "node:fs/promises";
 import { resolve, join } from "node:path";
-import { getDocsCollection } from "../src/app/lib/content-scan.ts";
+import { getCollection } from "@deijose/nix-js-kit/content";
 
 interface SearchEntry {
   title: string;
@@ -16,7 +16,7 @@ interface SearchEntry {
 }
 
 async function main() {
-  const entries = await getDocsCollection();
+  const entries = await getCollection("docs");
   const root = resolve(process.cwd());
   const publicDir = join(root, "public");
   await mkdir(publicDir, { recursive: true });

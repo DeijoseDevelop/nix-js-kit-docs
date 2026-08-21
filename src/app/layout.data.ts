@@ -6,7 +6,8 @@
 import type { PageDataLoad } from "@deijose/nix-js-kit";
 import { jsonLd } from "@deijose/nix-js-kit/seo";
 import { getDocsNav, getPrevNext } from "./lib/docs-nav";
-import { getDocEntry } from "./lib/content-scan";
+import { getEntry } from "@deijose/nix-js-kit/content";
+import type { DocData } from "./lib/docs-nav";
 import { renderMarkdown } from "./lib/markdown";
 import { getInlineCss } from "./lib/inline-css";
 
@@ -69,7 +70,7 @@ export const load: PageDataLoad = async ({ params }) => {
     ? slugParts.join("/")
     : (slugParts as string) || "introduction";
 
-  const entry = await getDocEntry(slug);
+  const entry = await getEntry<DocData>("docs", slug);
 
   if (!entry) {
     return {

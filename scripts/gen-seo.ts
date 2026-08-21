@@ -4,13 +4,13 @@
 
 import { generateSitemap, generateRobots } from "@deijose/nix-js-kit/seo";
 import { resolve } from "node:path";
-import { getDocsCollection } from "../src/app/lib/content-scan.ts";
+import { getCollection } from "@deijose/nix-js-kit/content";
 
 async function main() {
   const siteUrl = "https://kit.nix-js.dev";
   const outDir = resolve(process.cwd(), "dist");
 
-  const entries = await getDocsCollection();
+  const entries = await getCollection("docs");
 
   // Build URL list: landing + all docs
   const urls: string[] = ["/"];
