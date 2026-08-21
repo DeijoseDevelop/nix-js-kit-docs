@@ -7,7 +7,8 @@
     "dev": "nix-js-kit dev",
     "build": "bun run scripts/gen-search-index.ts && nix-js-kit build --lang en && bun run scripts/gen-seo.ts",
     "preview": "nix-js-kit preview",
-    "start": "nix-js-kit start"
+    "start": "nix-js-kit start",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@deijose/nix-js": "3.0.3",
@@ -16,6 +17,7 @@
     "zod": "^4.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "sharp": "^0.35.3",
     "shiki": "^3.0.0",
     "typescript": "^7.0.2",
