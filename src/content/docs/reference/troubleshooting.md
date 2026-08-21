@@ -113,8 +113,8 @@ The `@deijose/nix-js` version resolved to one that removed `_setSSR`. Upgrade th
 ```json
 {
   "dependencies": {
-    "@deijose/nix-js": "2.6.0",
-    "@deijose/nix-js-kit": "1.4.7"
+    "@deijose/nix-js": "3.0.3",
+    "@deijose/nix-js-kit": "2.0.4"
   }
 }
 ```

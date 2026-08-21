@@ -50,7 +50,7 @@ export default function HomePage({ data }: PageProps<unknown>) {
         <!-- Hero -->
         <section class="hero">
             <div class="hero-eyebrow">
-                Documentation · v1.4.7
+                Documentation · v2.0.4
             </div>
             <h1>
                 Nix<em>.</em>js Kit
