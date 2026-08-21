@@ -125,7 +125,7 @@ You are serving an old static build. Rebuild with `nix-js-kit build` — static 
 
 ### Island chunks 404 under `/assets/...`
 
-Vite generated chunk URLs like `/assets/Counter.js` instead of `/_nix-js/assets/Counter.js`. This was fixed in v2.0.1 — the client bundle now uses `base: "/_nix-js/"`. If you see this, upgrade to `@deijose/nix-js-kit@^2.0.1`.
+Vite generated chunk URLs like `/assets/Counter.js` instead of `/_nix-js/assets/Counter.js`. This was fixed in v2.0.1 — the client bundle now uses `base: "/_nix-js/"`. If you see this, upgrade to `@deijose/nix-js-kit@^2.0.4`.
 
 ### `[object Object]` in rendered HTML
 
@@ -134,8 +134,8 @@ The SSR array renderer produced `String(array)` instead of joining rendered item
 ```json
 {
   "dependencies": {
-    "@deijose/nix-js": "^3.0.1",
-    "@deijose/nix-js-kit": "^2.0.1"
+    "@deijose/nix-js": "^3.0.3",
+    "@deijose/nix-js-kit": "^2.0.4"
   }
 }
 ```
