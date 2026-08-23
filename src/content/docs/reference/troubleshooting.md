@@ -134,7 +134,7 @@ The SSR array renderer produced `String(array)` instead of joining rendered item
 ```json
 {
   "dependencies": {
-    "@deijose/nix-js": "^3.2.1",
+    "@deijose/nix-js": "^3.3.0",
     "@deijose/nix-js-kit": "^2.1.1"
   }
 }
@@ -153,7 +153,7 @@ The `@deijose/nix-js` version resolved to one that removed `_setSSR`. Upgrade th
 ```json
 {
   "dependencies": {
-    "@deijose/nix-js": "3.2.1",
+    "@deijose/nix-js": "3.3.0",
     "@deijose/nix-js-kit": "2.1.1"
   }
 }

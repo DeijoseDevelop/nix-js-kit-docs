@@ -51,13 +51,13 @@ html`
 
 ### Partial interpolation in attributes
 
-Concatenations inside an attribute are rewritten automatically by the build pipeline, so this works:
+Partial interpolations inside an attribute value work natively on Nix.js core ≥ 3.3 (detected via `templateFeatures.partialAttributeInterpolation`):
 
 ```ts
 html`<a href="/blog/${slug}">Read</a>`
 ```
 
-It is transformed into a single interpolation (`"/blog/" + slug`). Full-value interpolations (`href=${slug}`) are handled natively.
+Each dynamic segment is coerced with `String()` and the composed value is written once per flush, so reactivity is preserved per segment. On older cores the kit falls back to its legacy build-time rewrite (a single concatenated interpolation `"/blog/" + slug`) automatically; `interpolation: "legacy"` forces that transform for migrations, `interpolation: "off"` disables it.
 
 ## Signals — reactive state
 
