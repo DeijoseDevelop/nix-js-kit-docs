@@ -1,7 +1,3 @@
-// ============================================================================
-// Landing page — hero with CTAs, feature cards, quick example
-// ============================================================================
-
 import { html } from "@deijose/nix-js";
 import { raw } from "@deijose/nix-js-kit/content";
 import type { PageProps, PageMetadata } from "@deijose/nix-js-kit";

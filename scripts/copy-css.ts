@@ -1,7 +1,3 @@
-// ============================================================================
-// Copy CSS — concatenates all style files into a single dist/styles.css
-// ============================================================================
-
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve, join } from "node:path";
 

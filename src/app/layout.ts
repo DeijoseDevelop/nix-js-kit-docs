@@ -1,7 +1,3 @@
-// ============================================================================
-// Root layout — docs shell with sidebar, topbar, TOC, prev/next
-// ============================================================================
-
 import { html } from "@deijose/nix-js";
 import { raw } from "@deijose/nix-js-kit/content";
 import type { LayoutProps } from "@deijose/nix-js-kit";

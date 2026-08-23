@@ -1,9 +1,3 @@
-// ============================================================================
-// One-off logo optimization — generates the small topbar logo variants from
-// the original PNG (nix-js-logo.png → nix-js-logo-112.webp/png).
-// Run: bun run scripts/optimize-logo.ts
-// ============================================================================
-
 import sharp from "sharp";
 import { readFile } from "node:fs/promises";
 import { resolve, join } from "node:path";

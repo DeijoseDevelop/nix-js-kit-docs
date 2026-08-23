@@ -1,7 +1,3 @@
-// ============================================================================
-// Docs page — renders a Markdown doc entry inside the docs layout
-// ============================================================================
-
 import { html } from "@deijose/nix-js";
 import { raw } from "@deijose/nix-js-kit/content";
 import type {

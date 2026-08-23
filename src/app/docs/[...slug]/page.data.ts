@@ -1,7 +1,3 @@
-// ============================================================================
-// Docs page data — delegates to layout data (which loads everything)
-// ============================================================================
-
 import type { PageDataLoad } from "@deijose/nix-js-kit";
 import { load as layoutLoad } from "../../layout.data";
 

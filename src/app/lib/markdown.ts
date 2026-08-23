@@ -1,7 +1,3 @@
-// ============================================================================
-// Markdown pipeline — marked + Shiki + callouts + heading anchors + TOC
-// ============================================================================
-
 import { marked } from "marked";
 import {
   createHighlighter,
@@ -62,16 +58,12 @@ export interface RenderResult {
   toc: TocItem[];
 }
 
-// ── Custom renderer with Shiki code blocks + heading anchors ──────────────
-
 const renderer = {
   code({ text, lang }: { text: string; lang?: string }): string {
     const language = lang || "text";
     return `<!--CODE_BLOCK:${Buffer.from(text).toString("base64")}:${language}-->`;
   },
 };
-
-// ── Callout transform (:::note ... :::) ────────────────────────────────────
 
 function transformCallouts(source: string): string {
   const calloutTypes: Record<string, { cls: string; label: string; icon: string }> = {
@@ -121,8 +113,6 @@ function transformCallouts(source: string): string {
   return out.join("\n");
 }
 
-// ── Heading slugifier ──────────────────────────────────────────────────────
-
 function slugify(text: string): string {
   return text
     .toLowerCase()
@@ -131,8 +121,6 @@ function slugify(text: string): string {
     .replace(/-+/g, "-")
     .trim();
 }
-
-// ── Heading transform (add id + anchor link + collect TOC) ────────────────
 
 function transformHeadings(html: string, toc: TocItem[]): string {
   return html.replace(
@@ -147,8 +135,6 @@ function transformHeadings(html: string, toc: TocItem[]): string {
     },
   );
 }
-
-// ── Code block transform (replace placeholders with Shiki output) ─────────
 
 async function transformCodeBlocks(html: string): Promise<string> {
   const hl = await getHighlighter();
@@ -180,8 +166,6 @@ async function transformCodeBlocks(html: string): Promise<string> {
   );
 }
 
-// ── Standalone code highlighter (for use outside Markdown) ────────────────
-
 export async function highlightCode(
   code: string,
   lang: string = "typescript",
@@ -201,8 +185,6 @@ export async function highlightCode(
     return `<pre><code>${escaped}</code></pre>`;
   }
 }
-
-// ── Main render function ───────────────────────────────────────────────────
 
 export async function renderMarkdown(source: string): Promise<RenderResult> {
   const toc: TocItem[] = [];

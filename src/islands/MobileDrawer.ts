@@ -1,9 +1,3 @@
-// ============================================================================
-// MobileDrawer island — toggles sidebar visibility on mobile
-// Opens/closes the real #sidebar element (outside this island), locks page
-// scroll while open, and closes on backdrop click or Escape.
-// ============================================================================
-
 import { html, signal } from "@deijose/nix-js";
 
 function MobileDrawer() {

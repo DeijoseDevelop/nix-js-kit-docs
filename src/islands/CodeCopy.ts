@@ -1,7 +1,3 @@
-// ============================================================================
-// CodeCopy island — adds copy-to-clipboard to all code blocks via delegation
-// ============================================================================
-
 import { html } from "@deijose/nix-js";
 
 function CodeCopy() {

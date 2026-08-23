@@ -1,9 +1,3 @@
-// ============================================================================
-// Search island — ⌘K modal with client-side fuzzy search
-// Uses portal() to render the modal at document.body level, escaping any
-// overflow clipping from the island container.
-// ============================================================================
-
 import { html, signal, portal } from "@deijose/nix-js";
 
 interface SearchEntry {

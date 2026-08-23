@@ -1,7 +1,3 @@
-// ============================================================================
-// ThemeToggle island — toggles dark/light theme, persists in localStorage
-// ============================================================================
-
 import { html } from "@deijose/nix-js";
 
 function ThemeToggle() {

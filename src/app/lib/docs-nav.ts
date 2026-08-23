@@ -1,7 +1,3 @@
-// ============================================================================
-// Docs navigation — builds the sidebar nav tree from content entries
-// ============================================================================
-
 import { getCollection, getEntry, type ContentEntry } from "@deijose/nix-js-kit/content";
 
 /** Frontmatter data of a docs entry. */

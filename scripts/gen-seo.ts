@@ -1,7 +1,3 @@
-// ============================================================================
-// Generate sitemap.xml and robots.txt from docs content
-// ============================================================================
-
 import { generateSitemap, generateRobots } from "@deijose/nix-js-kit/seo";
 import { resolve } from "node:path";
 import { getCollection } from "@deijose/nix-js-kit/content";

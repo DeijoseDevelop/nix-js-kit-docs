@@ -1,8 +1,3 @@
-// ============================================================================
-// Layout data loader — loads nav, current doc, TOC, prev/next
-// (runs for every page, has access to params)
-// ============================================================================
-
 import type { PageDataLoad } from "@deijose/nix-js-kit";
 import { jsonLd } from "@deijose/nix-js-kit/seo";
 import { getDocsNav, getPrevNext } from "./lib/docs-nav";

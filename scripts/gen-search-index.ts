@@ -1,7 +1,3 @@
-// ============================================================================
-// Generate search index JSON from docs content
-// ============================================================================
-
 import { writeFile, mkdir } from "node:fs/promises";
 import { resolve, join } from "node:path";
 import { getCollection } from "@deijose/nix-js-kit/content";

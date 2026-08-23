@@ -1,7 +1,3 @@
-// ============================================================================
-// Home page data — loads nav sections for the landing page
-// ============================================================================
-
 import type { PageDataLoad } from "@deijose/nix-js-kit";
 import { getDocsNav } from "./lib/docs-nav";
 import { highlightCode } from "./lib/markdown";

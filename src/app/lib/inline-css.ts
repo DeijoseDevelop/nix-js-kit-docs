@@ -1,7 +1,3 @@
-// ============================================================================
-// Inline CSS — reads all style files and outputs a single CSS string
-// ============================================================================
-
 import { readFile } from "node:fs/promises";
 import { resolve, join } from "node:path";
 

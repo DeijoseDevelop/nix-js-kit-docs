@@ -1,7 +1,3 @@
-// ============================================================================
-// Search index — generates a JSON index for client-side search
-// ============================================================================
-
 import { getCollection } from "@deijose/nix-js-kit/content";
 import type { DocMeta } from "./docs-nav";
 
