@@ -11,7 +11,7 @@ order: 1
 
 ## Why Nix.js Kit?
 
-The key difference from other meta-frameworks is the **runtime cost**. Nix.js has no virtual DOM, so islands hydrate individual signals instead of full component trees. The result is a much smaller client bundle — **~14KB** for the entire Nix.js runtime.
+The key difference from other meta-frameworks is the **runtime cost**. Nix.js has no virtual DOM, so islands hydrate individual signals instead of full component trees. The result is a much smaller client bundle — **~15 KB** for the entire Nix.js runtime.
 
 ### Next.js conventions, Astro islands
 
@@ -24,7 +24,7 @@ The key difference from other meta-frameworks is the **runtime cost**. Nix.js ha
 | Content collections | ✅ | ❌ | ✅ |
 | Image optimization | ✅ | ✅ | ✅ |
 | Middleware | ✅ | ✅ | ✅ |
-| Client runtime | ~14KB | ~100KB+ | ~0KB |
+| Client runtime | ~15 KB | ~100KB+ | ~0KB |
 
 ### Zero dependencies by default
 

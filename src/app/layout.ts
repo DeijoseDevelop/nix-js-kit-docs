@@ -43,7 +43,7 @@ export default function DocsLayout({
                         <source srcset="/nix-js-logo-112.webp" type="image/webp" />
                         <img src="/nix-js-logo-112.png" alt="Nix.js Kit" width="28" height="19" style="width:28px;height:19px;object-fit:contain" />
                     </picture>
-                    <span>Nix<em>.</em>js Kit</span></a><span class="topbar-version">v2.0.4</span>
+                    <span>Nix<em>.</em>js Kit</span></a><span class="topbar-version">v2.1.1</span>
                 </div>
 
                 <div class="topbar-breadcrumb">

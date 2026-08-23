@@ -9,7 +9,7 @@ order: 8
 
 Nix.js Kit is built on [Nix.js](https://nix-js.dev/), a reactive DOM micro-framework with no virtual DOM. Every page, layout, and island you write is a Nix.js template. Understanding these fundamentals unlocks the rest of the framework.
 
-The entire runtime is **~14 KB** and has zero dependencies.
+The entire runtime is **~15 KB** and has zero dependencies.
 
 ## Templates with `html`
 

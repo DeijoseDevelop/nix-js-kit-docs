@@ -22,7 +22,7 @@ order: 2
 | **Server actions** | ✅ `page.action.ts` | ❌ | ✅ |
 | **Islands** | ✅ | ✅ | ❌ (RSC) |
 | **Zero client JS** | ✅ | ✅ | ❌ |
-| **Client runtime** | ~14KB | ~0KB | ~100KB+ |
+| **Client runtime** | ~15 KB | ~0KB | ~100KB+ |
 | **SPA router** | ✅ | ✅ | ✅ |
 | **View Transitions** | ✅ | ✅ | ✅ (experimental) |
 | **Prefetch** | ✅ Viewport + hover | ✅ | ✅ |
@@ -48,7 +48,7 @@ order: 2
 - You want **Next.js conventions** (file-based routing, layouts, actions, API routes) **without the React tax**
 - You want **Astro-style islands** with fine-grained signals instead of full hydration
 - You want a **single framework** that handles both content sites and interactive apps
-- You value **zero client dependencies** and a ~14KB runtime
+- You value **zero client dependencies** and a ~15 KB runtime
 - You want **TypeScript 7** with the native Go compiler
 - You want **CSRF protection** and **progressive enhancement** built-in
 

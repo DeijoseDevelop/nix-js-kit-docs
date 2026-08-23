@@ -46,17 +46,17 @@ export default function HomePage({ data }: PageProps<unknown>) {
         <!-- Hero -->
         <section class="hero">
             <div class="hero-eyebrow">
-                Documentation · v2.0.4
+                Documentation · v2.1.1
             </div>
             <h1>
                 Nix<em>.</em>js Kit
             </h1>
             <p class="hero-desc">
-                A full-stack meta-framework with Next.js conventions and Astro-style islands. Zero client JS by default — Nix.js stays at ~14KB.
+                A full-stack meta-framework with Next.js conventions and Astro-style islands. Zero client JS by default — Nix.js stays at ~15 KB.
             </p>
 
             <div class="hero-badges">
-                <span class="badge"><span class="badge-dot" style="background:var(--green)"></span> 119 tests passing </span><span class="badge"><span class="badge-dot" style="background:var(--brand-3)"></span> ~14 KB client runtime </span><span class="badge"><span class="badge-dot" style="background:var(--brand-2)"></span> TypeScript 7 </span><span class="badge"><span class="badge-dot" style="background:var(--gold)"></span> Zero dependencies </span>
+                <span class="badge"><span class="badge-dot" style="background:var(--green)"></span> 119 tests passing </span><span class="badge"><span class="badge-dot" style="background:var(--brand-3)"></span> ~15 KB client runtime </span><span class="badge"><span class="badge-dot" style="background:var(--brand-2)"></span> TypeScript 7 </span><span class="badge"><span class="badge-dot" style="background:var(--gold)"></span> Zero dependencies </span>
             </div>
 
             <div class="hero-actions">
