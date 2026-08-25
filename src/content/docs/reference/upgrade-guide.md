@@ -7,6 +7,49 @@ order: 3
 
 # Upgrade Guide
 
+## Upgrading to v2.4.4
+
+v2.4.4 fixes two bugs introduced in v2.4.3 that prevented client-only
+islands from hydrating on the client.
+
+### No breaking changes
+
+v2.4.4 is a bugfix release. No API changes — just upgrade:
+
+```bash
+bun add @deijose/nix-js-kit@^2.4.4
+```
+
+### What was broken in v2.4.3
+
+1. **`directive: "only"` never hydrated** — `hydrateIslands()` only had
+   branches for `"load"`, `"idle"`, and `"visible"`. Markers with
+   `data-directive="only"` were silently skipped — the component never
+   mounted, leaving the fallback HTML (or empty marker) permanently.
+
+2. **`hydrateTemplate` did nothing for islands without SSR DOM** —
+   Islands with `"only"` or `ssr: false` have no SSR-rendered DOM in
+   the marker (only fallback HTML or nothing). `hydrateTemplate` walks
+   existing DOM for hydration markers — when there's nothing to walk,
+   it silently does nothing (templates with no bindings) or throws a
+   mismatch and remounts (templates with bindings).
+
+### What v2.4.4 does
+
+1. `"only"` now hydrates immediately like `"load"` in `hydrateIslands()`.
+2. The hydrator detects the absence of `<!--nix-` markers and does a
+   fresh `_render` mount instead of `hydrateTemplate` — the correct
+   operation when there's no SSR DOM to hydrate against.
+
+### If you applied a workaround in v2.4.3
+
+If you used `island("Name", Component, props, "load", { ssr: false })`
+instead of `"only"` as a workaround, you can now switch back to
+`island("Name", Component, props, "only")` — both work correctly in
+v2.4.4. The workaround also continues to work.
+
+---
+
 ## Upgrading to v2.4.3
 
 v2.4.3 fixes a regression introduced in v2.4.0: `island()` crashed for

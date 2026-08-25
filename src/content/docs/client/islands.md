@@ -103,6 +103,14 @@ When SSR is skipped, the component is **never called** on the server —
 only `options.fallback` is rendered inside the island marker. The client
 hydrates from scratch.
 
+:::note v2.4.4 fix
+In v2.4.3, `"only"` islands were skipped on the server (correct) but
+**never hydrated on the client** — the hydrator only handled `"load"`,
+`"idle"`, and `"visible"`. If you're on v2.4.3, either upgrade to
+v2.4.4+ or use `island("Name", Component, props, "load", { ssr: false })`
+as a workaround.
+:::
+
 ### `fallback` option
 
 `options.fallback` accepts a plain string or a `NixTemplate` (reactive,

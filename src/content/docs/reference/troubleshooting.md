@@ -142,6 +142,11 @@ and suggest the three fixes above.
 - The island name passed to `island("Name", ...)` must match the filename (e.g. `src/islands/Counter.ts` → `"Counter"`)
 - The generated entry must include it — regenerate with `nix-js-kit build` or the Vite plugin
 - The island is outside the DOM after client-side navigation — islands re-hydrate on `nix-js:rendered`; check the console for `No island registered for "..."`
+- **`directive: "only"` on v2.4.3** — the hydrator only handled `"load"`,
+  `"idle"`, and `"visible"`. Markers with `data-directive="only"` were
+  silently skipped. Upgrade to v2.4.4+, or use
+  `island("Name", Component, props, "load", { ssr: false })` as a
+  workaround.
 
 ### Clicking a link does a full page reload
 

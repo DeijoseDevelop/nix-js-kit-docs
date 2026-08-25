@@ -42,7 +42,17 @@ buildHeadTags(metadata: PageMetadata): string
 ```ts
 build(config: BuildConfig): Promise<BuildResult>
 scanRoutes(appDir: string): Promise<ScannedRoutes>
+
+interface BuildResult {
+  outDir: string  // actual output path (atomic staging temp dir in CLI mode)
+  // ...other fields
+}
 ```
+
+`BuildResult.outDir` (v2.4.2) exposes the actual output directory — the
+atomic staging temp dir when called via the CLI, not the final `dist/`.
+Integration `build` hooks should write artifacts to this path so they
+survive the staging commit into `dist/`.
 
 ### Islands
 
