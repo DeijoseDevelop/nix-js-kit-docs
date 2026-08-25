@@ -117,6 +117,33 @@ setCachedHtml(path: string, html: string, cacheDir: string, revalidate: number):
 clearCache(cacheDir: string): Promise<void>
 ```
 
+### Cache adapters (v2.1.0+)
+
+From `@deijose/nix-js-kit/cache`:
+
+```ts
+createRedisCacheAdapter(client: RedisClient, options?: {
+  keyPrefix?: string;     // default "nix-js:"
+  tagPrefix?: string;     // default "nix-js-tag:"
+}): CacheAdapter
+
+createCloudflareKVCacheAdapter(options: {
+  namespace: KVNamespace;
+  keyPrefix?: string;     // default "nix-js:"
+}): CacheAdapter
+
+invalidateTags(tags: string[]): Promise<void>
+```
+
+### Config (v2.4.0+)
+
+```ts
+defineConfig(options: {
+  interpolation?: "auto" | "legacy" | "off";
+  images?: { strict?: boolean };
+}): UserConfig
+```
+
 ### Images
 
 ```ts

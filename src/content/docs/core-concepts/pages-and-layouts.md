@@ -147,3 +147,84 @@ export const load = async ({ request }) => {
 :::note
 Head scripts are the standard no-flash bootstrap pattern — they run synchronously before the deferred client bundle, preventing theme flashes on static pages.
 :::
+
+## Layout slots (v2.1.0+)
+
+In addition to `children`, layouts can receive **named slots** from `*.slot.ts` files. This lets you compose multiple content areas (sidebar, header, footer) into a single layout without prop drilling.
+
+### Defining a slot
+
+Create a `*.slot.ts` file next to your `page.ts`. The file name becomes the slot name:
+
+```ts
+// src/app/(marketing)/pricing/sidebar.slot.ts
+import { html } from "@deijose/nix-js";
+
+export default function PricingSidebar() {
+  return html`
+    <aside class="pricing-sidebar">
+      <h3>Plans</h3>
+      <ul>
+        <li><a href="#free">Free</a></li>
+        <li><a href="#pro">Pro</a></li>
+      </ul>
+    </aside>
+  `;
+}
+```
+
+### Consuming slots in a layout
+
+The route scanner detects `*.slot.ts` files and passes them to the nearest layout as named slots via `LayoutProps.slots`:
+
+```ts
+// src/app/(marketing)/layout.ts
+import { html } from "@deijose/nix-js";
+import type { LayoutProps } from "@deijose/nix-js-kit";
+
+export default function MarketingLayout({ children, slots }: LayoutProps) {
+  return html`
+    <html lang="en">
+      <body>
+        <main id="app">
+          <div class="layout">
+            <div class="layout-content">${children}</div>
+            ${slots.sidebar ?? ""}
+          </div>
+        </main>
+      </body>
+    </html>
+  `;
+}
+```
+
+### Slot type
+
+```ts
+interface LayoutProps<TData> {
+  children: unknown;
+  data?: InferLoaderData<TData>;
+  slots?: Record<string, unknown>; // named slots from *.slot.ts
+}
+```
+
+:::tip
+Slots are optional — if a page doesn't define a `*.slot.ts` file, the corresponding `slots.<name>` is `undefined`. Use `slots.sidebar ?? ""` to render nothing when the slot is absent.
+:::
+
+### Multiple slots
+
+You can define multiple slots per route:
+
+```
+src/app/(marketing)/pricing/
+  page.ts
+  sidebar.slot.ts
+  header.slot.ts
+```
+
+Each slot is available as `slots.sidebar` and `slots.header` in the layout.
+
+:::note
+Slots work with route groups (`(group)`) — the slot is passed to the nearest layout in the chain, including group layouts.
+:::

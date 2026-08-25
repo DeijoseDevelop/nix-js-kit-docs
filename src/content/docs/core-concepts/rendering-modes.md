@@ -119,3 +119,67 @@ The kit automatically detects which mode to use based on:
 - Whether `revalidate` is exported
 - Whether `loading.ts` exists
 - Whether `generateStaticParams` is exported for dynamic routes
+
+## Cache adapters (v2.1.0+)
+
+ISR uses a cache adapter to store rendered HTML. The kit ships with three adapters:
+
+### Filesystem (default)
+
+Used by `nix-js-kit start` when `--cache-dir` is set:
+
+```bash
+nix-js-kit start --cache-dir .nix-js/cache --default-revalidate 60
+```
+
+### Redis / Upstash
+
+For multi-instance deployments (multiple server processes or edge nodes sharing the same cache):
+
+```ts
+import { createRedisCacheAdapter } from "@deijose/nix-js-kit/cache";
+import { createClient } from "redis";
+
+const client = createClient({ url: process.env.REDIS_URL });
+await client.connect();
+
+export const cacheAdapter = createRedisCacheAdapter(client, {
+  keyPrefix: "nix-js:",     // optional key namespace
+  tagPrefix: "nix-js-tag:", // tag set namespace for invalidation
+});
+```
+
+Works with Upstash Redis REST by passing a compatible client.
+
+### Cloudflare KV
+
+For Cloudflare Workers/Pages deployments:
+
+```ts
+import { createCloudflareKVCacheAdapter } from "@deijose/nix-js-kit/cache";
+
+export const cacheAdapter = createCloudflareKVCacheAdapter({
+  namespace: env.NIX_JS_CACHE, // KV binding
+  keyPrefix: "nix-js:",
+});
+```
+
+### Tag-based invalidation
+
+All adapters support tag-based cache invalidation:
+
+```ts
+import { invalidateTags } from "@deijose/nix-js-kit/cache";
+
+// Invalidate all cache entries tagged "posts"
+await invalidateTags(["posts"]);
+```
+
+Tag storage:
+- **Filesystem:** JSON index file in the cache directory
+- **Redis:** Redis sets mapping tag → keys
+- **Cloudflare KV:** JSON index in a KV key
+
+:::tip
+Use tags when a content change should invalidate multiple routes at once. For example, tag all blog post pages with `posts` and call `invalidateTags(["posts"])` after publishing a new post.
+:::

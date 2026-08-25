@@ -111,6 +111,109 @@ island("Carousel", Carousel, {}, "only", {
 
 ---
 
+## Upgrading to v2.4.0
+
+v2.4.0 removes happy-dom entirely, renames the config file, and fixes CLI bundling bugs.
+
+### Breaking changes
+
+- **`happy-dom` fully removed** — the kit no longer references happy-dom anywhere. SSR uses the core's DOM-free `renderToString` (`@deijose/nix-js/server`) directly, with no DOM fallback. If you had `happy-dom` in your dependencies for SSR, you can remove it.
+- **Config file renamed: `nix.config.*` → `nix-js.config.*`** — the generic `nix.config.ts` name could collide with other tools. The kit now looks for `nix-js.config.{ts,js,mjs}` first. Legacy `nix.config.*` files are still detected but emit a deprecation warning.
+
+### Migration
+
+```bash
+# Rename config file
+mv nix.config.ts nix-js.config.ts
+
+# Remove happy-dom if you had it installed for SSR
+bun remove happy-dom
+```
+
+Run `nix-js-kit doctor` to check for legacy config files and other issues.
+
+### Fixes
+
+- CLI bundling bug where the image registry had a dual instance (CLI bundle vs library chunk), causing `consumeImageRegistry()` to always return `[]`.
+- `raw()` missing `renderServer` — caused "Template does not support server rendering" errors after happy-dom removal.
+
+---
+
+## Upgrading to v2.3.0
+
+v2.3.0 delegates template interpolation to the Vite plugin when available.
+
+### No breaking changes
+
+```bash
+bun add @deijose/nix-js-kit@^2.3.0
+```
+
+### What changed
+
+When `@deijose/vite-plugin-nix-js` >= 1.1.0 is installed, the kit's legacy interpolation transform is skipped (the plugin's state-machine lexer takes precedence). The kit's transform remains as a fallback for projects that use the kit without the plugin.
+
+### Migration
+
+Install the Vite plugin for the best interpolation support:
+
+```bash
+bun add @deijose/vite-plugin-nix-js@^1.1.0
+```
+
+---
+
+## Upgrading to v2.2.0
+
+v2.2.0 adds native partial attribute interpolation when using Nix.js core >= 3.3.
+
+### No breaking changes
+
+```bash
+bun add @deijose/nix-js-kit@^2.2.0
+```
+
+### What changed
+
+When the installed Nix.js core exposes `templateFeatures.partialAttributeInterpolation` (core >= 3.3), the kit no longer injects the legacy `nixJsInterpolationPlugin` transform. Partial attributes now run through the runtime's native normalization, preserving fine-grained reactivity.
+
+New `interpolation: "auto" | "legacy" | "off"` option on `nixJsKit()`, `buildClientBundle()`, and `transformProjectFiles()`:
+- `"auto"` (default) — uses native when available, legacy otherwise
+- `"legacy"` — forces the old transform for migrations (emits deprecation warning)
+- `"off"` — disables interpolation transform entirely
+
+---
+
+## Upgrading to v2.1.0
+
+v2.1.0 adds five major features: route-level code-splitting, layout slots, cache adapters, real Suspense streaming, and makes happy-dom an optional peer dependency.
+
+### No breaking changes
+
+```bash
+bun add @deijose/nix-js-kit@^2.1.0
+```
+
+### New features
+
+#### Layout slots
+
+`*.slot.ts` files are now detected by the route scanner and passed to layout components as named slots (`slots.sidebar`, `slots.header`, etc.). See [Pages and Layouts](/docs/core-concepts/pages-and-layouts#layout-slots-v210).
+
+#### Cache adapters
+
+New `createRedisCacheAdapter()` and `createCloudflareKVCacheAdapter()` in `@deijose/nix-js-kit/cache`. See [Rendering Modes — Cache adapters](/docs/core-concepts/rendering-modes#cache-adapters-v210).
+
+#### Real Suspense streaming
+
+`streamBoundary()` and `createStreamingResponse()` now emit a `<template>` chunk + replacement script that swaps the fallback `<div>` for the resolved content in-place (using `replaceWith`), instead of the old `innerHTML` append pattern.
+
+#### Route-level code-splitting
+
+The generated client entry uses `import()` per island, producing separate chunks per page for a minimal initial bundle. This is automatic — no configuration needed.
+
+---
+
 ## Upgrading to v2.0.x
 
 v2.0 is a major release that adds DOM-free SSR, a unified Web handler, adapter capabilities, image pipeline hardening, island HMR, recursive content collections, and production error sanitization. It requires `@deijose/nix-js@^3.0.0`.

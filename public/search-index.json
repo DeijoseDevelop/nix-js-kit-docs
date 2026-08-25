@@ -62,6 +62,10 @@
       "Using an island in a page",
       "`island()` signature",
       "Hydration directives",
+      "Client-only islands (`directive: \"only\"` / `ssr: false`)",
+      "`fallback` option",
+      "`isSSR()` — environment reads",
+      "SSR errors are not silenced",
       "Hydrating on the client",
       "Manual entry",
       "Auto island scan",
@@ -72,7 +76,7 @@
       "Lower-level APIs",
       "Subpath export"
     ],
-    "excerpt": "Islands are interactive components that hydrate independently. The rest of the page stays static HTML — zero JavaScript for non-interactive content. | Directive | When it hydrates | Best for | | --- |"
+    "excerpt": "Islands are interactive components that hydrate independently. The rest of the page stays static HTML — zero JavaScript for non-interactive content. | Directive | When it hydrates | SSR? | Best for | "
   },
   {
     "title": "Metadata API",
@@ -234,7 +238,12 @@
       "`LayoutProps`",
       "Layout data loaders",
       "HTML attributes",
-      "Head scripts"
+      "Head scripts",
+      "Layout slots (v2.1.0+)",
+      "Defining a slot",
+      "Consuming slots in a layout",
+      "Slot type",
+      "Multiple slots"
     ],
     "excerpt": "Each  file exports a default component that receives :  automatically infers the data type from your loader — no manual typing needed.  files wrap all pages in the same directory and below: Layouts ch"
   },
@@ -249,7 +258,12 @@
       "ISR (Incremental Static Regeneration)",
       "Streaming",
       "When to use each",
-      "Mixing modes"
+      "Mixing modes",
+      "Cache adapters (v2.1.0+)",
+      "Filesystem (default)",
+      "Redis / Upstash",
+      "Cloudflare KV",
+      "Tag-based invalidation"
     ],
     "excerpt": "Nix.js Kit supports four rendering modes. You can mix them in the same app — each route can use a different mode. When: Build time The kit scans , runs loaders, composes layout chains, and writes stat"
   },
@@ -489,6 +503,8 @@
       "Routing",
       "Actions",
       "Cache (ISR)",
+      "Cache adapters (v2.1.0+)",
+      "Config (v2.4.0+)",
       "Images",
       "Middleware",
       "Adapters",
@@ -507,7 +523,7 @@
       "`@deijose/nix-js-kit/adapters/bun`",
       "`@deijose/nix-js-kit/adapters/node`"
     ],
-    "excerpt": "Complete reference for all exports from ."
+    "excerpt": "Complete reference for all exports from .  (v2.4.2) exposes the actual output directory — the atomic staging temp dir when called via the CLI, not the final . Integration  hooks should write artifacts"
   },
   {
     "title": "Comparison",
@@ -546,6 +562,7 @@
       "\"Hydration marker mismatch: Template has no hydration descriptor\"",
       "\"e._render is not a function\" (island hydration)",
       "Island returns null and breaks other islands",
+      "`ReferenceError: document is not defined` (or `window`)",
       "Island never hydrates",
       "Clicking a link does a full page reload",
       "Lots of `__nix-js/render` 404s in the console",
@@ -572,6 +589,29 @@
     "section": "Reference",
     "slug": "reference/upgrade-guide",
     "headings": [
+      "Upgrading to v2.4.4",
+      "Bugfix-only release",
+      "What was broken in v2.4.3",
+      "What v2.4.4 does",
+      "If you applied a workaround in v2.4.3",
+      "Upgrading to v2.4.3",
+      "No breaking changes",
+      "Migrating client-only components",
+      "Fallback content",
+      "Upgrading to v2.4.0",
+      "Breaking changes",
+      "Migration",
+      "Fixes",
+      "Upgrading to v2.3.0",
+      "No breaking changes",
+      "What changed",
+      "Migration",
+      "Upgrading to v2.2.0",
+      "No breaking changes",
+      "What changed",
+      "Upgrading to v2.1.0",
+      "No breaking changes",
+      "New features",
       "Upgrading to v2.0.x",
       "Breaking changes",
       "New features (non-breaking, opt-in)",
@@ -584,7 +624,7 @@
       "Upgrading from v1.2.x to v1.2.7",
       "General upgrade steps"
     ],
-    "excerpt": "v2.0 is a major release that adds DOM-free SSR, a unified Web handler, adapter capabilities, image pipeline hardening, island HMR, recursive content collections, and production error sanitization. It "
+    "excerpt": "v2.4.4 fixes two bugs introduced in v2.4.3 that prevented client-only islands from hydrating on the client. v2.4.4 is a bugfix release. No API changes — just upgrade: 1.  never hydrated —  only had   "
   },
   {
     "title": "Environment Variables",
@@ -743,7 +783,8 @@
       "`nix-js-kit routes`",
       "`nix-js-kit doctor`",
       "Programmatic API",
-      "Bun runtime"
+      "Bun runtime",
+      "Config file (v2.4.0+)"
     ],
     "excerpt": "The  binary is available after installing the package. Builds the static site and client bundle. Options: | Flag | Default | Description | | --- | --- | --- | |  |  | Project root | |  |  | Pages dire"
   },

@@ -143,3 +143,30 @@ await run({
 ## Bun runtime
 
 For Bun-managed projects, the CLI automatically re-executes itself under the Bun runtime. This ensures `bun:sqlite` and other Bun-specific APIs work correctly with `nix-js-kit build/dev/start/preview`.
+
+## Config file (v2.4.0+)
+
+The kit looks for a config file at the project root:
+
+- `nix-js.config.ts` (preferred)
+- `nix-js.config.js`
+- `nix-js.config.mjs`
+- `nix.config.ts` (legacy, emits deprecation warning)
+- `nix.config.js` (legacy)
+- `nix.config.mjs` (legacy)
+
+```ts
+// nix-js.config.ts
+import { defineConfig } from "@deijose/nix-js-kit";
+
+export default defineConfig({
+  interpolation: "auto", // "auto" | "legacy" | "off"
+  images: {
+    strict: false, // fail build on image errors
+  },
+});
+```
+
+:::note
+The generic `nix.config.*` name was a design error that could collide with other tools. v2.4.0 renamed it to `nix-js.config.*`. Legacy files are still detected for backward compatibility but emit a deprecation warning. `nix-js-kit doctor` reports legacy config files as `warn` status.
+:::
