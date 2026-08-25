@@ -50,17 +50,22 @@ island(
   name: string,           // registry name (must match hydrateIslands key)
   component: Function,    // the island component
   props?: object,         // props passed to the component
-  directive?: "load" | "idle" | "visible",  // hydration trigger
+  directive?: "load" | "idle" | "visible" | "only",  // hydration trigger
+  options?: {             // (v2.4.3+) SSR strategy and fallback
+    ssr?: boolean,        // default true (false when directive is "only")
+    fallback?: NixTemplate | string,  // HTML when SSR is skipped or component returns null
+  },
 )
 ```
 
 ## Hydration directives
 
-| Directive | When it hydrates | Best for |
-| --- | --- | --- |
-| `load` | Immediately | Above-the-fold interactivity |
-| `idle` | `requestIdleCallback` | Below-the-fold, non-critical |
-| `visible` | `IntersectionObserver` | Comments, widgets, heavy components |
+| Directive | When it hydrates | SSR? | Best for |
+| --- | --- | --- | --- |
+| `load` | Immediately | Yes (component runs on server) | Above-the-fold interactivity |
+| `idle` | `requestIdleCallback` | Yes (component runs on server) | Below-the-fold, non-critical |
+| `visible` | `IntersectionObserver` | Yes (component runs on server) | Comments, widgets, heavy components |
+| `only` | Immediately | **No** — client-only | Components using `document`/`window`/`navigator` |
 
 ```ts
 // Hydrate immediately
@@ -71,6 +76,92 @@ island("Analytics", Analytics, {}, "idle")
 
 // Hydrate when scrolled into view
 island("Comments", Comments, { postId: "123" }, "visible")
+```
+
+## Client-only islands (`directive: "only"` / `ssr: false`)
+
+Components that access browser-only globals (`document`, `window`,
+`navigator`, `localStorage`, ...) in their body — carousels, charts,
+third-party widgets — cannot run on the server. Two opt-out mechanisms
+are provided, mirroring Astro `client:only` and Next.js
+`dynamic(..., { ssr: false })`:
+
+```ts
+// Client-only, hydrates on load, empty fallback
+island("Carousel", Carousel, { slides }, "only")
+
+// Client-only + fallback HTML (string or NixTemplate)
+island("Carousel", Carousel, { slides }, "only", {
+  fallback: "<div class=\"skeleton\" />",
+})
+
+// Client-only + hydrate when visible (more flexible than "only")
+island("Chart", Chart, { data }, "visible", { ssr: false })
+```
+
+When SSR is skipped, the component is **never called** on the server —
+only `options.fallback` is rendered inside the island marker. The client
+hydrates from scratch.
+
+### `fallback` option
+
+`options.fallback` accepts a plain string or a `NixTemplate` (reactive,
+with signals). It is rendered when:
+
+- SSR is skipped (`"only"` or `ssr: false`), or
+- The component returns `null` / `false` / `undefined` during SSR.
+
+```ts
+island("Widget", Widget, { id: 1 }, "load", {
+  fallback: html`<p class="placeholder">Loading…</p>`,
+})
+```
+
+### `isSSR()` — environment reads
+
+For components that only need *environment* reads (`window.matchMedia`,
+`localStorage`, `navigator.userAgent`), guard the access with `isSSR()`
+instead of skipping SSR entirely — this preserves the SSR fallback HTML:
+
+```ts
+import { html, signal } from "@deijose/nix-js";
+import { isSSR } from "@deijose/nix-js-kit";
+
+function ThemeToggle() {
+  const prefersDark = isSSR()
+    ? false
+    : window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const dark = signal(prefersDark);
+  return html`<button @click=${() => (dark.value = !dark.value)}>${() => (dark.value ? "🌙" : "☀")}</button>`;
+}
+
+island("ThemeToggle", ThemeToggle, {}, "load")  // SSR works, no "only" needed
+```
+
+:::warning `isSSR()` limitation
+`isSSR()` is **not** a replacement for `"only"` / `ssr: false`. It only
+works for environment reads. `document.querySelectorAll(".slide")` of
+the component's own children will **not** work with `isSSR()` because
+the DOM is not inserted when the function body runs (neither on the
+server nor during hydration). For DOM queries of own children, use
+`NixComponent.onMount()` + `ref` — `onMount` runs after the DOM is
+inserted, the equivalent of React's `useEffect`.
+:::
+
+### SSR errors are not silenced
+
+If an island component throws during SSR (with a directive other than
+`"only"` and `ssr` not set to `false`), the error propagates wrapped
+with the island name and remediation hints — it is never silently
+swallowed. This matches Astro and Next.js, which never `try/catch` to
+"auto-detect" client-only components:
+
+```
+[nix-js-kit] Island "Carousel" threw during SSR: document is not defined
+  If the component accesses browser-only globals (document, window, etc.),
+  use directive: "only" or options: { ssr: false } to skip server rendering.
+  For environment reads (matchMedia, localStorage, navigator) you may guard
+  the access with isSSR() from "@deijose/nix-js-kit".
 ```
 
 ## Hydrating on the client
@@ -148,6 +239,16 @@ export default function ConditionalWidget({ show }: { show: boolean }) {
   if (!show) return null;
   return html`<div>Visible!</div>`;
 }
+```
+
+Since v2.4.3, when a component returns `null`/`false`/`undefined` during
+SSR, the `options.fallback` is rendered into the marker instead of an
+empty string:
+
+```ts
+island("ConditionalWidget", ConditionalWidget, { show: false }, "load", {
+  fallback: "<p>Not visible</p>",
+})
 ```
 
 ## Lower-level APIs

@@ -109,6 +109,34 @@ hydrateIslands({ Counter });
 
 Since v2.0.1, islands returning `null`, `false`, or `undefined` are treated as empty islands and hydration continues for siblings. If you're on an older version, upgrade. The error is now reported per-island without crashing global hydration.
 
+### `ReferenceError: document is not defined` (or `window`)
+
+An island component accesses browser-only globals (`document`, `window`,
+`navigator`, `localStorage`) in its body, and SSR tries to execute it.
+This was a regression in v2.4.0 (happy-dom fallback removed) and is
+fixed in v2.4.3. Use one of:
+
+```ts
+// Skip SSR entirely (Astro client:only equivalent)
+island("Carousel", Carousel, {}, "only")
+island("Chart", Chart, { data }, "visible", { ssr: false })
+
+// Guard environment reads only (keeps SSR fallback HTML)
+import { isSSR } from "@deijose/nix-js-kit";
+const prefersDark = isSSR() ? false : window.matchMedia("(prefers-color-scheme: dark)").matches;
+```
+
+:::warning
+`isSSR()` does **not** work for `document.querySelectorAll(".slide")` of
+the component's own children — the DOM is not inserted when the function
+body runs. For DOM queries of own children, use `NixComponent.onMount()`
++ `ref`, or `directive: "only"`.
+:::
+
+If the error message includes `Island "..." threw during SSR`, the kit
+has wrapped it with remediation hints — read them, they name the island
+and suggest the three fixes above.
+
 ### Island never hydrates
 
 - The island name passed to `island("Name", ...)` must match the filename (e.g. `src/islands/Counter.ts` → `"Counter"`)

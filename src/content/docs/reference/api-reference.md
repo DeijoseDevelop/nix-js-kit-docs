@@ -47,9 +47,23 @@ scanRoutes(appDir: string): Promise<ScannedRoutes>
 ### Islands
 
 ```ts
-island(name: string, component: IslandComponent, props?: object, directive?: IslandDirective): NixTemplate
+type IslandDirective = "load" | "idle" | "visible" | "only"
+
+interface IslandOptions {
+  ssr?: boolean              // default true (false when directive is "only")
+  fallback?: NixTemplate | string  // HTML when SSR is skipped or component returns null
+}
+
+island(
+  name: string,
+  component: IslandComponent,
+  props?: object,
+  directive?: IslandDirective,
+  options?: IslandOptions,
+): NixTemplate
 scanIslands(islandsDir: string): Promise<IslandModule[]>
 generateClientEntry(options: GenerateEntryOptions): Promise<void>
+isSSR(): boolean  // true during renderToString, false otherwise
 ```
 
 ### SSR

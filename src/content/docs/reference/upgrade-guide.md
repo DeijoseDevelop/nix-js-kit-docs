@@ -7,6 +7,67 @@ order: 3
 
 # Upgrade Guide
 
+## Upgrading to v2.4.3
+
+v2.4.3 fixes a regression introduced in v2.4.0: `island()` crashed for
+client-only components after the happy-dom fallback was removed. It also
+adds two opt-out mechanisms for client-only islands and an `isSSR()`
+guard for environment reads.
+
+### No breaking changes
+
+All additions are opt-in and backward compatible:
+
+- `directive: "only"` is a new value (default remains `"load"`).
+- `options` is a new optional 5th parameter.
+- `isSSR()` is a new export.
+- Existing `island("Name", Component, props, "load")` calls work
+  unchanged.
+
+### Migrating client-only components
+
+If you had components that accessed `document`/`window`/`navigator` and
+worked before v2.4.0 (because happy-dom provided a mock), they now
+crash with `ReferenceError: document is not defined`. Fix them with one
+of:
+
+```ts
+// 1. directive: "only" — skip SSR, hydrate on load
+island("Carousel", Carousel, {}, "only")
+
+// 2. options: { ssr: false } — skip SSR, keep any directive
+island("Chart", Chart, { data }, "visible", { ssr: false })
+
+// 3. isSSR() — guard environment reads (keeps SSR fallback HTML)
+import { isSSR } from "@deijose/nix-js-kit";
+function ThemeToggle() {
+  const dark = signal(isSSR() ? false : matchMedia("(prefers-color-scheme: dark)").matches);
+  // ...
+}
+island("ThemeToggle", ThemeToggle, {}, "load")
+```
+
+:::warning
+`isSSR()` only works for environment reads (`window.matchMedia`,
+`localStorage`, `navigator`). It does **not** work for
+`document.querySelectorAll(".slide")` of the component's own children —
+the DOM is not inserted when the function body runs. For that, use
+`NixComponent.onMount()` + `ref`, or `directive: "only"`.
+:::
+
+### Fallback content
+
+Use `options.fallback` to show loading content while the client-only
+island hydrates:
+
+```ts
+island("Carousel", Carousel, {}, "only", {
+  fallback: html`<div class="skeleton">Loading…</div>`,
+})
+```
+
+---
+
 ## Upgrading to v2.0.x
 
 v2.0 is a major release that adds DOM-free SSR, a unified Web handler, adapter capabilities, image pipeline hardening, island HMR, recursive content collections, and production error sanitization. It requires `@deijose/nix-js@^3.0.0`.
