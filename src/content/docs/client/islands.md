@@ -164,7 +164,7 @@ with the island name and remediation hints — it is never silently
 swallowed. This matches Astro and Next.js, which never `try/catch` to
 "auto-detect" client-only components:
 
-```
+```text
 [nix-js-kit] Island "Carousel" threw during SSR: document is not defined
   If the component accesses browser-only globals (document, window, etc.),
   use directive: "only" or options: { ssr: false } to skip server rendering.

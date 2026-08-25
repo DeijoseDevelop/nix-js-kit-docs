@@ -12,7 +12,7 @@ order: 3
 v2.4.4 fixes two bugs introduced in v2.4.3 that prevented client-only
 islands from hydrating on the client.
 
-### No breaking changes
+### Bugfix-only release
 
 v2.4.4 is a bugfix release. No API changes — just upgrade:
 

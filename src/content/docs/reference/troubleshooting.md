@@ -130,7 +130,7 @@ const prefersDark = isSSR() ? false : window.matchMedia("(prefers-color-scheme: 
 `isSSR()` does **not** work for `document.querySelectorAll(".slide")` of
 the component's own children — the DOM is not inserted when the function
 body runs. For DOM queries of own children, use `NixComponent.onMount()`
-+ `ref`, or `directive: "only"`.
+and `ref`, or `directive: "only"`.
 :::
 
 If the error message includes `Island "..." threw during SSR`, the kit
